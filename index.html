@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>body {margin:0;}</style>
+	</head>
+	<body onload="start_1()">
+		
+<img id="scream1" src="walking.jpg" width="30" height="30">
+<img id="scream2" src="brick_01.jpg" width="30" height="30">
+<canvas id="canvas-id" width="1064" height="700" style="border:1px solid #d3d3d3;">1122</canvas>
+		<script>
+
+
+	  
+
+var ccc = document.getElementById("canvas-id");
+const ctx = ccc.getContext('2d');
+const img3 = document.getElementById("scream1");
+const img4 = document.getElementById("scream2");
+
+var i = 1;
+  
+var myX = 110, myY = 110, MYmoveX=0, MYmoveY=0;
+
+
+
+
+function update_function(event) {
+
+//	window.console.log("natisnat e buton");
+
+	
+	document.addEventListener('keydown', logKey);
+       
+  
+	i=i+1;
+
+
+	if ( MYmoveY > 0 ) {		// Проверка дали се движи надолу
+		if ( myY < 630 ) {		// Проверка дали е в екрана, дали не напуска екрана
+			myY=myY+MYmoveY;
+		}
+	}
+	if ( MYmoveY < 0 ) {
+		if ( myY > 30 ) {
+			myY=myY+MYmoveY;
+		}
+	}
+	if ( MYmoveX > 0 ) {
+		if ( myX < 960 ) {
+			myX=myX+MYmoveX;
+		}
+	}
+	if ( MYmoveX < 0 ) {
+		if ( myX > 30 ) {
+			myX=myX+MYmoveX;
+		}
+	}
+	
+//	ctx.fillText("Hello World", 10, 50+i); 
+	ctx.drawImage(img3, myX, myY, 30, 30);
+
+
+
+
+	
+}
+
+function logKey(e) {
+//  log.textContent += ` ${e.code}`;
+	window.console.log("natisnat e buton 8888");
+	window.console.log(e.code);
+	
+
+	// Проверява за стрелка надолу
+	if (e.code == "ArrowDown") {		// Стрелка надолу
+		console.log("Strelka Nadolu") 
+		MYmoveY=2
+		MYmoveX=0
+		
+	}	
+	if (e.code == "ArrowUp") {
+		console.log("Strelka NAGORE") 
+		MYmoveY=-2
+		MYmoveX=0
+		
+	}	
+	if (e.code == "ArrowLeft") {
+		console.log("Strelka NALIAVO") 
+		MYmoveX = -2
+		MYmoveY =  0
+		
+	}	
+	if (e.code == "ArrowRight") {
+		console.log("Strelka NADIASNO") 
+		MYmoveX = 2;
+		MYmoveY = 0;
+	}	
+
+
+	if (e.code == "Space") {
+		MYmoveX=0
+		MYmoveY=0
+	}
+  	
+
+	
+}
+
+function start_1() {
+	var k;
+	for (k = 0; k < 34; k++) {
+		ctx.drawImage(img4, 30*k,   0, 30, 30);
+		ctx.drawImage(img4, 30*k, 660, 30, 30);
+	} 
+	for (k = 0; k < 23; k++) {
+		ctx.drawImage(img4,   0, 30*k, 30, 30);
+		ctx.drawImage(img4, 990, 30*k, 30, 30);
+	} 
+
+
+
+	init();
+
+}
+
+// Главна функция, тук прави цикъл през 30мс
+function init() {
+
+
+
+
+
+
+	update_function ();
+	setTimeout(init, 50);
+	
+	
+}
+
+function a () {
+alert ("DA");
+}
+   
+   
+
+		</script>
+
+
+
+
+	</body>
+</html>
