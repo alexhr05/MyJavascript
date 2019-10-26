@@ -18,7 +18,10 @@ const ctx = ccc.getContext('2d');
 const img3 = document.getElementById("scream1");
 const img4 = document.getElementById("scream2");
 
-var i = 1;
+ var i = 1;
+  var stena1_X=90, stena1_Y=300;
+  
+  
   
 var myX = 110, myY = 110, MYmoveX=0, MYmoveY=0;
 
@@ -113,9 +116,16 @@ function start_1() {
 		ctx.drawImage(img4, 30*k,   0, 30, 30);
 		ctx.drawImage(img4, 30*k, 660, 30, 30);
 	} 
+
 	for (k = 0; k < 23; k++) {
 		ctx.drawImage(img4,   0, 30*k, 30, 30);
 		ctx.drawImage(img4, 990, 30*k, 30, 30);
+	} 
+
+
+// Стена
+	for (k = 10; k < 13; k++) {
+		ctx.drawImage(img4, 90, 30*k, 30, 30);
 	} 
 
 
