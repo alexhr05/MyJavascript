@@ -3,33 +3,68 @@
 	<head>
 		<style>body {margin:0;}</style>
 	</head>
-	<body onload="start_1()">
+	<body onload="init()">
 		
 <img id="scream1" src="walking.jpg" width="30" height="30">
 <img id="scream2" src="brick_01.jpg" width="30" height="30">
-<canvas id="canvas-id" width="1064" height="700" style="border:1px solid #d3d3d3;">1122</canvas>
+<img id="scream3" src="koshnichka.jpg" width="30" height="30">
+<canvas id="canvas-id" width="1280" height="700" style="border:1px solid #d3d3d3;">1122</canvas>
 		<script>
 
 
 	  
 
-var ccc = document.getElementById("canvas-id");
+let ccc = document.getElementById("canvas-id");
 const ctx = ccc.getContext('2d');
 const img3 = document.getElementById("scream1");
 const img4 = document.getElementById("scream2");
+const img5 = document.getElementById("scream3");
 
- var i = 1;
-  var stena1_X=90, stena1_Y=300;
+
+const dvizenie_po_X = 2;
+const dvizenie_po_Y = 2;
+const stop_po_X = 0;
+const stop_po_Y = 0;
+const parvonachalnoX = 90;
+const parvonachalnoY = 180;
+const mashtab = 30;	// Колко е голямо стъпка/човече
+ 
+
+// Стена 1
+let stena_max = 6;
+var stenaX = [" 5",  " 5",  " 5",  " 5",  " 5",  "15",  "16",  "17" ];
+var stenaY = [" 7",  " 8",  " 9",  "10",  "11",  " 5",  " 5",  " 5" ];
+
+// Кошници за събиране
+let koshnica_max = 2;
+var koshnicaX = ["10", " 3", " 8"];
+var koshnicaY = ["15", " 3", "12"];
+
+let TextX_1 = 1050;
+let TextY_1 = 20;
+let TextY_redove = 20;
+
+let koshnichki = 0;
+
+
+
+
+let i = 1;
+
   
   
   
-var myX = 110, myY = 110, MYmoveX=0, MYmoveY=0;
+let myX = parvonachalnoX, myY = parvonachalnoY, MYmoveX=stop_po_X, MYmoveY=stop_po_Y;
 
 
 
 
-function update_function(event) {
-
+function update_move(event) {
+let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, udarena_nagore =0;
+	let k;
+	
+	
+	
 //	window.console.log("natisnat e buton");
 
 	
@@ -39,29 +74,143 @@ function update_function(event) {
 	i=i+1;
 
 
+	// Проверка за ударена кошница
+	for (k = 1; k <= koshnica_max; k++) {
+
+		ot_dolu   	= 0;
+		ot_gore   	= 0;
+		ot_liavo 	= 0;
+		ot_diasno  	= 0;
+
+		// Проверка за КОШНИЦА при движение НАДОЛУ
+		if ( (myY+mashtab) == koshnicaY[k]*mashtab && (myX+mashtab) >= koshnicaX[k]*mashtab && myX <= (koshnicaX[k]*mashtab+mashtab)   ) {		// Ударено е кубче номер К от вътрешните стени
+			ot_dolu = 1;
+			window.console.log("Y, OTDOLU-"+myY+" "+ot_dolu);
+		}
+		if ( myY == (koshnicaY[k]*mashtab+mashtab) && (myX+mashtab) >= koshnicaX[k]*mashtab && myX <= (koshnicaX[k]*mashtab+mashtab)    )  {		// Ударено е кубче номер К от вътрешните стени
+			ot_gore = 1;
+			window.console.log("Y, OTGORE-"+myY+" "+ot_gore);
+		}
+		
+		if ( myX  == (koshnicaX[k]*mashtab+mashtab) && (myY+mashtab) >= koshnicaY[k]*mashtab && myY <= (koshnicaY[k]*mashtab+mashtab)    )  {		// Ударено е кубче номер К от вътрешните стени
+			ot_liavo = 1;
+			window.console.log("X-X-X-X, OT-LIAVO-"+myX+" "+ot_liavo);
+		}
+		// Готово
+		if ( (myX+mashtab) == koshnicaX[k]*mashtab && (myY+mashtab) >= koshnicaY[k]*mashtab && myY <=  (koshnicaY[k]*mashtab+mashtab)   )  {		// Ударено е кубче номер К от вътрешните стени
+			ot_diasno = 1;
+			window.console.log("XXXXXXX, NA-DIASNO-"+myX+" "+ot_diasno);
+		}
+		
+		if ( ot_dolu != 0 || ot_gore != 0 || ot_liavo != 0 || ot_diasno != 0 ) {
+			// Имаме удар в преграда, спира да проверява
+			koshnichki++;
+			// Да трие кошницата
+			ctx.clearRect ( koshnicaX[k]*mashtab , koshnicaY[k]*mashtab , 30 , 30 );	
+			koshnicaX[k] = 0;
+			koshnicaY[k] = 0;			
+			break;
+		}
+		
+	}
+
+	// Проверка дали е ударено всяко едно блокче от стена
+	for (k = 1; k <= stena_max; k++) {
+
+		ot_dolu   	= 0;
+		ot_gore   	= 0;
+		ot_liavo 	= 0;
+		ot_diasno  	= 0;
+
+		// Проверка за УДАРЕНА стена при движение НАДОЛУ
+		if ( (myY+mashtab) == stenaY[k]*mashtab && (myX+mashtab) >= stenaX[k]*mashtab && myX <= (stenaX[k]*mashtab+mashtab)   ) {		// Ударено е кубче номер К от вътрешните стени
+			ot_dolu = 1;
+			window.console.log("Y, OTDOLU-"+myY+" "+ot_dolu);
+		}
+		if ( myY == (stenaY[k]*mashtab+mashtab) && (myX+mashtab) >= stenaX[k]*mashtab && myX <= (stenaX[k]*mashtab+mashtab)    )  {		// Ударено е кубче номер К от вътрешните стени
+			ot_gore = 1;
+			window.console.log("Y, OTGORE-"+myY+" "+ot_gore);
+		}
+		
+		if ( myX  == (stenaX[k]*mashtab+mashtab) && (myY+mashtab) >= stenaY[k]*mashtab && myY <= (stenaY[k]*mashtab+mashtab)    )  {		// Ударено е кубче номер К от вътрешните стени
+			ot_liavo = 1;
+			window.console.log("X-X-X-X, OT-LIAVO-"+myX+" "+ot_liavo);
+		}
+		// Готово
+		if ( (myX+mashtab) == stenaX[k]*mashtab && (myY+mashtab) >= stenaY[k]*mashtab && myY <=  (stenaY[k]*mashtab+mashtab)   )  {		// Ударено е кубче номер К от вътрешните стени
+			ot_diasno = 1;
+			window.console.log("XXXXXXX, NA-DIASNO-"+myX+" "+ot_diasno);
+		}
+		
+		if ( ot_dolu != 0 || ot_gore != 0 || ot_liavo != 0 || ot_diasno != 0 ) {
+			// Имаме удар в преграда, спира да проверява
+			break;
+		}
+		
+	}
+
+
+
+
+	
+
+//	if( udarena == 2){
+//		window.console.log("vatre vuv stenata !!!");
+//	}
+	
+	// Проверка дали е ВЪТРЕ В екрана
 	if ( MYmoveY > 0 ) {		// Проверка дали се движи надолу
 		if ( myY < 630 ) {		// Проверка дали е в екрана, дали не напуска екрана
-			myY=myY+MYmoveY;
+			if ( ot_dolu == 0) {
+				// Движение НАДОЛУ
+				myY=myY+MYmoveY;
+			} else {
+			}
 		}
 	}
 	if ( MYmoveY < 0 ) {
-		if ( myY > 30 ) {
-			myY=myY+MYmoveY;
+		if ( myY > mashtab ) {
+			if ( ot_gore == 0) {
+				// Движение НАГОРЕ
+				myY=myY+MYmoveY;
+			} else {
+			}
 		}
 	}
 	if ( MYmoveX > 0 ) {
 		if ( myX < 960 ) {
-			myX=myX+MYmoveX;
+			if ( ot_diasno == 0) {
+				// Движение НАДЯСНО
+				myX=myX+MYmoveX;
+			} else {
+			}
 		}
 	}
 	if ( MYmoveX < 0 ) {
-		if ( myX > 30 ) {
-			myX=myX+MYmoveX;
+		if ( myX > mashtab ) {
+			if ( ot_liavo == 0) {
+				// Движение НАЛЯВО
+				myX=myX+MYmoveX;
+			} else {
+			}
 		}
 	}
+
 	
-//	ctx.fillText("Hello World", 10, 50+i); 
-	ctx.drawImage(img3, myX, myY, 30, 30);
+	
+	// Изтрива стария резултат
+	ctx.clearRect ( TextX_1+115 , TextY_1 + TextY_redove*2-16 , 60 , 20 );
+
+	ctx.font = "20px Verdana";
+	ctx.fillText("Hello World", TextX_1, TextY_1 + TextY_redove*1); 
+	ctx.fillText("Резултат :", 	TextX_1, TextY_1 + TextY_redove*2); 
+
+	// Печата новия:
+	ctx.fillText(koshnichki, 	TextX_1+115, TextY_1 + TextY_redove*2); 
+	
+	// Нашето човече
+	ctx.drawImage(img3, myX, myY, mashtab, mashtab);	
+	
 
 
 
@@ -70,80 +219,86 @@ function update_function(event) {
 }
 
 function logKey(e) {
-//  log.textContent += ` ${e.code}`;
-	window.console.log("natisnat e buton 8888");
+//	window.console.log("natisnat e buton 8888");
 	window.console.log(e.code);
 	
 
 	// Проверява за стрелка надолу
 	if (e.code == "ArrowDown") {		// Стрелка надолу
-		console.log("Strelka Nadolu") 
-		MYmoveY=2
-		MYmoveX=0
+//		console.log("Strelka Nadolu") 
+		MYmoveY=dvizenie_po_Y;
+		MYmoveX=stop_po_X;
 		
 	}	
 	if (e.code == "ArrowUp") {
-		console.log("Strelka NAGORE") 
-		MYmoveY=-2
-		MYmoveX=0
+//		console.log("Strelka NAGORE") 
+		MYmoveY=-dvizenie_po_Y;
+		MYmoveX=stop_po_X;
 		
 	}	
 	if (e.code == "ArrowLeft") {
-		console.log("Strelka NALIAVO") 
-		MYmoveX = -2
-		MYmoveY =  0
+//		console.log("Strelka NALIAVO") 
+		MYmoveX = -dvizenie_po_X;
+		MYmoveY =  stop_po_Y;
 		
 	}	
 	if (e.code == "ArrowRight") {
-		console.log("Strelka NADIASNO") 
-		MYmoveX = 2;
-		MYmoveY = 0;
+//		console.log("Strelka NADIASNO") 
+		MYmoveX = dvizenie_po_X;
+		MYmoveY = stop_po_Y;
 	}	
 
 
 	if (e.code == "Space") {
-		MYmoveX=0
-		MYmoveY=0
+		MYmoveX=stop_po_X
+		MYmoveY=stop_po_Y
 	}
   	
 
 	
 }
 
-function start_1() {
-	var k;
+function init() {
+	let k;
+	
+	// Рисува стени
 	for (k = 0; k < 34; k++) {
-		ctx.drawImage(img4, 30*k,   0, 30, 30);
-		ctx.drawImage(img4, 30*k, 660, 30, 30);
+		ctx.drawImage(img4, mashtab*k,   0, mashtab, mashtab);
+		ctx.drawImage(img4, mashtab*k, 660, mashtab, mashtab);
 	} 
 
 	for (k = 0; k < 23; k++) {
-		ctx.drawImage(img4,   0, 30*k, 30, 30);
-		ctx.drawImage(img4, 990, 30*k, 30, 30);
+		ctx.drawImage(img4,   0, mashtab*k, mashtab, mashtab);
+		ctx.drawImage(img4, 990, mashtab*k, mashtab, mashtab);
+	} 
+	
+	// Рисува прегради, стена 1, хоризонтална
+	for (k = 1; k <= stena_max; k++) {
+		ctx.drawImage(img4, stenaX[k]*mashtab, stenaY[k]*mashtab, mashtab, mashtab);
+	} 
+
+	for (k = 1; k <= koshnica_max; k++) {
+		ctx.drawImage(img5, koshnicaX[k]*mashtab, koshnicaY[k]*mashtab, mashtab, mashtab);
 	} 
 
 
-// Стена
-	for (k = 10; k < 13; k++) {
-		ctx.drawImage(img4, 90, 30*k, 30, 30);
-	} 
 
 
 
-	init();
+	update_function();
 
 }
 
 // Главна функция, тук прави цикъл през 30мс
-function init() {
+function update_function() {
 
 
 
 
 
 
-	update_function ();
-	setTimeout(init, 50);
+	update_move ();
+	setTimeout(update_function, 50);
 	
 	
 }
