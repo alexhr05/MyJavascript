@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -6,10 +6,10 @@
 	</head>
 	<body onload="init()">
 		
-<img id="scream1" src="walking.jpg" width="30" height="30">
+<img id="scream1" src="walking_30.png" width="30" height="30">
 <img id="scream2" src="brick_01.jpg" width="30" height="30">
-<img id="scream3" src="koshnichka.jpg" width="30" height="30">
-<canvas id="canvas-id" width="1280" height="700" style="border:1px solid #d3d3d3;">1122</canvas>
+<img id="scream3" src="Diamond_30.png" width="30" height="30">
+<canvas id="canvas-id" width="1270" height="700" style="border:1px solid #d3d3d3;">1122</canvas>
 		<script>
 
 
@@ -22,30 +22,36 @@ const img4 = document.getElementById("scream2");
 const img5 = document.getElementById("scream3");
 
 
-const dvizenie_po_X = 2;
-const dvizenie_po_Y = 2;
-const stop_po_X = 0;
-const stop_po_Y = 0;
-const parvonachalnoX = 90;
-const parvonachalnoY = 180;
-const mashtab = 30;	// Колко е голямо стъпка/човече
+const moveX = 2;
+const moveY = 2;
+const stopX = 0;
+const stopY = 0;
+
+const START = {
+            x: 90,
+            y: 180,
+};
+
+
+const DefaultSize = 30;	// Колко е голямо стъпка/човече
  
 
 // Стена 1
-let stena_max = 6;
-var stenaX = [" 5",  " 5",  " 5",  " 5",  " 5",  "15",  "16",  "17" ];
-var stenaY = [" 7",  " 8",  " 9",  "10",  "11",  " 5",  " 5",  " 5" ];
+let StenaMax = 8;
+
+var stenaX = [" 5",  " 5",  " 5",  " 5",  " 5",  "15",  "16",  "17", "20" ];
+var stenaY = [" 7",  " 8",  " 9",  "10",  "11",  " 5",  " 5",  " 5", "15" ];
 
 // Кошници за събиране
-let koshnica_max = 2;
-var koshnicaX = ["10", " 3", " 8"];
-var koshnicaY = ["15", " 3", "12"];
+let Diamand_max = 2;
+var DiamandX = ["10", " 3", " 8"];
+var DiamandY = ["15", " 3", "12"];
 
 let TextX_1 = 1050;
 let TextY_1 = 20;
 let TextY_redove = 20;
 
-let koshnichki = 0;
+let CollectDiamonds = 0;
 
 
 
@@ -55,7 +61,7 @@ let i = 1;
   
   
   
-let myX = parvonachalnoX, myY = parvonachalnoY, MYmoveX=stop_po_X, MYmoveY=stop_po_Y;
+let myX = START.x, myY = START.y, MYmoveX=stopX, MYmoveY=stopY;
 
 
 
@@ -76,7 +82,7 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 
 
 	// Проверка за ударена кошница
-	for (k = 1; k <= koshnica_max; k++) {
+	for (k = 1; k <= Diamand_max; k++) {
 
 		ot_dolu   	= 0;
 		ot_gore   	= 0;
@@ -84,39 +90,39 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		ot_diasno  	= 0;
 
 		// Проверка за КОШНИЦА при движение НАДОЛУ
-		if ( (myY+mashtab) == koshnicaY[k]*mashtab && (myX+mashtab) >= koshnicaX[k]*mashtab && myX <= (koshnicaX[k]*mashtab+mashtab)   ) {		// Ударено е кубче номер К от вътрешните стени
+		if ( (myY+DefaultSize) == DiamandY[k]*DefaultSize && (myX+DefaultSize) >= DiamandX[k]*DefaultSize && myX <= (DiamandX[k]*DefaultSize+DefaultSize)   ) {		// Ударено е кубче номер К от вътрешните стени
 			ot_dolu = 1;
 			window.console.log("Y, OTDOLU-"+myY+" "+ot_dolu);
 		}
-		if ( myY == (koshnicaY[k]*mashtab+mashtab) && (myX+mashtab) >= koshnicaX[k]*mashtab && myX <= (koshnicaX[k]*mashtab+mashtab)    )  {		// Ударено е кубче номер К от вътрешните стени
+		if ( myY == (DiamandY[k]*DefaultSize+DefaultSize) && (myX+DefaultSize) >= DiamandX[k]*DefaultSize && myX <= (DiamandX[k]*DefaultSize+DefaultSize)    )  {		// Ударено е кубче номер К от вътрешните стени
 			ot_gore = 1;
 			window.console.log("Y, OTGORE-"+myY+" "+ot_gore);
 		}
 		
-		if ( myX  == (koshnicaX[k]*mashtab+mashtab) && (myY+mashtab) >= koshnicaY[k]*mashtab && myY <= (koshnicaY[k]*mashtab+mashtab)    )  {		// Ударено е кубче номер К от вътрешните стени
+		if ( myX  == (DiamandX[k]*DefaultSize+DefaultSize) && (myY+DefaultSize) >= DiamandY[k]*DefaultSize && myY <= (DiamandY[k]*DefaultSize+DefaultSize)    )  {		// Ударено е кубче номер К от вътрешните стени
 			ot_liavo = 1;
 			window.console.log("X-X-X-X, OT-LIAVO-"+myX+" "+ot_liavo);
 		}
 		// Готово
-		if ( (myX+mashtab) == koshnicaX[k]*mashtab && (myY+mashtab) >= koshnicaY[k]*mashtab && myY <=  (koshnicaY[k]*mashtab+mashtab)   )  {		// Ударено е кубче номер К от вътрешните стени
+		if ( (myX+DefaultSize) == DiamandX[k]*DefaultSize && (myY+DefaultSize) >= DiamandY[k]*DefaultSize && myY <=  (DiamandY[k]*DefaultSize+DefaultSize)   )  {		// Ударено е кубче номер К от вътрешните стени
 			ot_diasno = 1;
 			window.console.log("XXXXXXX, NA-DIASNO-"+myX+" "+ot_diasno);
 		}
 		
 		if ( ot_dolu != 0 || ot_gore != 0 || ot_liavo != 0 || ot_diasno != 0 ) {
 			// Имаме удар в преграда, спира да проверява
-			koshnichki++;
+			CollectDiamonds++;
 			// Да трие кошницата
-			ctx.clearRect ( koshnicaX[k]*mashtab , koshnicaY[k]*mashtab , 30 , 30 );	
-			koshnicaX[k] = 0;
-			koshnicaY[k] = 0;			
+			ctx.clearRect ( DiamandX[k]*DefaultSize , DiamandY[k]*DefaultSize , 30 , 30 );	
+			DiamandX[k] = 0;
+			DiamandY[k] = 0;			
 			break;
 		}
 		
 	}
 
 	// Проверка дали е ударено всяко едно блокче от стена
-	for (k = 1; k <= stena_max; k++) {
+	for (k = 1; k <= StenaMax; k++) {
 
 		ot_dolu   	= 0;
 		ot_gore   	= 0;
@@ -124,21 +130,21 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		ot_diasno  	= 0;
 
 		// Проверка за УДАРЕНА стена при движение НАДОЛУ
-		if ( (myY+mashtab) == stenaY[k]*mashtab && (myX+mashtab) >= stenaX[k]*mashtab && myX <= (stenaX[k]*mashtab+mashtab)   ) {		// Ударено е кубче номер К от вътрешните стени
+		if ( (myY+DefaultSize) == stenaY[k]*DefaultSize && (myX+DefaultSize) >= stenaX[k]*DefaultSize && myX <= (stenaX[k]*DefaultSize+DefaultSize)   ) {		// Ударено е кубче номер К от вътрешните стени
 			ot_dolu = 1;
 			window.console.log("Y, OTDOLU-"+myY+" "+ot_dolu);
 		}
-		if ( myY == (stenaY[k]*mashtab+mashtab) && (myX+mashtab) >= stenaX[k]*mashtab && myX <= (stenaX[k]*mashtab+mashtab)    )  {		// Ударено е кубче номер К от вътрешните стени
+		if ( myY == (stenaY[k]*DefaultSize+DefaultSize) && (myX+DefaultSize) >= stenaX[k]*DefaultSize && myX <= (stenaX[k]*DefaultSize+DefaultSize)    )  {		// Ударено е кубче номер К от вътрешните стени
 			ot_gore = 1;
 			window.console.log("Y, OTGORE-"+myY+" "+ot_gore);
 		}
 		
-		if ( myX  == (stenaX[k]*mashtab+mashtab) && (myY+mashtab) >= stenaY[k]*mashtab && myY <= (stenaY[k]*mashtab+mashtab)    )  {		// Ударено е кубче номер К от вътрешните стени
+		if ( myX  == (stenaX[k]*DefaultSize+DefaultSize) && (myY+DefaultSize) >= stenaY[k]*DefaultSize && myY <= (stenaY[k]*DefaultSize+DefaultSize)    )  {		// Ударено е кубче номер К от вътрешните стени
 			ot_liavo = 1;
 			window.console.log("X-X-X-X, OT-LIAVO-"+myX+" "+ot_liavo);
 		}
 		// Готово
-		if ( (myX+mashtab) == stenaX[k]*mashtab && (myY+mashtab) >= stenaY[k]*mashtab && myY <=  (stenaY[k]*mashtab+mashtab)   )  {		// Ударено е кубче номер К от вътрешните стени
+		if ( (myX+DefaultSize) == stenaX[k]*DefaultSize && (myY+DefaultSize) >= stenaY[k]*DefaultSize && myY <=  (stenaY[k]*DefaultSize+DefaultSize)   )  {		// Ударено е кубче номер К от вътрешните стени
 			ot_diasno = 1;
 			window.console.log("XXXXXXX, NA-DIASNO-"+myX+" "+ot_diasno);
 		}
@@ -150,15 +156,6 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		
 	}
 
-
-
-
-	
-
-//	if( udarena == 2){
-//		window.console.log("vatre vuv stenata !!!");
-//	}
-	
 	// Проверка дали е ВЪТРЕ В екрана
 	if ( MYmoveY > 0 ) {		// Проверка дали се движи надолу
 		if ( myY < 630 ) {		// Проверка дали е в екрана, дали не напуска екрана
@@ -170,7 +167,7 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		}
 	}
 	if ( MYmoveY < 0 ) {
-		if ( myY > mashtab ) {
+		if ( myY > DefaultSize ) {
 			if ( ot_gore == 0) {
 				// Движение НАГОРЕ
 				myY=myY+MYmoveY;
@@ -188,7 +185,7 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		}
 	}
 	if ( MYmoveX < 0 ) {
-		if ( myX > mashtab ) {
+		if ( myX > DefaultSize ) {
 			if ( ot_liavo == 0) {
 				// Движение НАЛЯВО
 				myX=myX+MYmoveX;
@@ -207,10 +204,10 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 	ctx.fillText("Резултат :", 	TextX_1, TextY_1 + TextY_redove*2); 
 
 	// Печата новия:
-	ctx.fillText(koshnichki, 	TextX_1+115, TextY_1 + TextY_redove*2); 
+	ctx.fillText(CollectDiamonds, 	TextX_1+115, TextY_1 + TextY_redove*2); 
 	
 	// Нашето човече
-	ctx.drawImage(img3, myX, myY, mashtab, mashtab);	
+	ctx.drawImage(img3, myX, myY, DefaultSize, DefaultSize);	
 	
 
 
@@ -229,32 +226,32 @@ function logKey(e) {
 	// Проверява за стрелка надолу
 	if (e.code == "ArrowDown") {		// Стрелка надолу
 //		console.log("Strelka Nadolu") 
-		MYmoveY=dvizenie_po_Y;
-		MYmoveX=stop_po_X;
+		MYmoveY=moveY;
+		MYmoveX=stopX;
 		
 	}	
 	if (e.code == "ArrowUp") {
 //		console.log("Strelka NAGORE") 
-		MYmoveY=-dvizenie_po_Y;
-		MYmoveX=stop_po_X;
+		MYmoveY=-moveY;
+		MYmoveX=stopX;
 		
 	}	
 	if (e.code == "ArrowLeft") {
 //		console.log("Strelka NALIAVO") 
-		MYmoveX = -dvizenie_po_X;
-		MYmoveY =  stop_po_Y;
+		MYmoveX = -moveX;
+		MYmoveY =  stopY;
 		
 	}	
 	if (e.code == "ArrowRight") {
 //		console.log("Strelka NADIASNO") 
-		MYmoveX = dvizenie_po_X;
-		MYmoveY = stop_po_Y;
+		MYmoveX = moveX;
+		MYmoveY = stopY;
 	}	
 
 
 	if (e.code == "Space") {
-		MYmoveX=stop_po_X
-		MYmoveY=stop_po_Y
+		MYmoveX=stopX
+		MYmoveY=stopY
 	}
   	
 
@@ -266,22 +263,22 @@ function init() {
 	
 	// Рисува стени
 	for (k = 0; k < 34; k++) {
-		ctx.drawImage(img4, mashtab*k,   0, mashtab, mashtab);
-		ctx.drawImage(img4, mashtab*k, 660, mashtab, mashtab);
+		ctx.drawImage(img4, DefaultSize*k,   0, DefaultSize, DefaultSize);
+		ctx.drawImage(img4, DefaultSize*k, 660, DefaultSize, DefaultSize);
 	} 
 
 	for (k = 0; k < 23; k++) {
-		ctx.drawImage(img4,   0, mashtab*k, mashtab, mashtab);
-		ctx.drawImage(img4, 990, mashtab*k, mashtab, mashtab);
+		ctx.drawImage(img4,   0, DefaultSize*k, DefaultSize, DefaultSize);
+		ctx.drawImage(img4, 990, DefaultSize*k, DefaultSize, DefaultSize);
 	} 
 	
 	// Рисува прегради, стена 1, хоризонтална
-	for (k = 1; k <= stena_max; k++) {
-		ctx.drawImage(img4, stenaX[k]*mashtab, stenaY[k]*mashtab, mashtab, mashtab);
+	for (k = 0; k <= StenaMax; k++) {
+		ctx.drawImage(img4, stenaX[k]*DefaultSize, stenaY[k]*DefaultSize, DefaultSize, DefaultSize);
 	} 
 
-	for (k = 1; k <= koshnica_max; k++) {
-		ctx.drawImage(img5, koshnicaX[k]*mashtab, koshnicaY[k]*mashtab, mashtab, mashtab);
+	for (k = 0; k <= Diamand_max; k++) {
+		ctx.drawImage(img5, DiamandX[k]*DefaultSize, DiamandY[k]*DefaultSize, DefaultSize, DefaultSize);
 	} 
 
 
