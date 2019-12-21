@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿ <!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -6,9 +6,10 @@
 	</head>
 	<body onload="init()">
 		
-<img id="scream1" src="walking_30.png" width="30" height="30">
+<img id="scream1" src="walking_30_right.png" width="30" height="30">
 <img id="scream2" src="brick_01.jpg" width="30" height="30">
 <img id="scream3" src="Diamond_30.png" width="30" height="30">
+<img id="scream4" src="walking_30_left.png" width="30" height="30">
 <canvas id="canvas-id" width="1270" height="700" style="border:1px solid #d3d3d3;">1122</canvas>
 		<script>
 
@@ -16,10 +17,14 @@
 	  
 
 let ccc = document.getElementById("canvas-id");
+let running = 0;			// Дали тича в момента
+let running_step = 4;		// С колко да тича
+
 const ctx = ccc.getContext('2d');
-const img3 = document.getElementById("scream1");
-const img4 = document.getElementById("scream2");
-const img5 = document.getElementById("scream3");
+const img1 = document.getElementById("scream1");
+const img2 = document.getElementById("scream2");
+const img3 = document.getElementById("scream3");
+const img4 = document.getElementById("scream4");
 
 
 const moveX = 2;
@@ -37,10 +42,10 @@ const DefaultSize = 30;	// Колко е голямо стъпка/човече
  
 
 // Стена 1
-let StenaMax = 8;
-
-var stenaX = [" 5",  " 5",  " 5",  " 5",  " 5",  "15",  "16",  "17", "20" ];
-var stenaY = [" 7",  " 8",  " 9",  "10",  "11",  " 5",  " 5",  " 5", "15" ];
+let StenaMax = 0;
+//              0      1      2      3      4     5       6      7     8    9    10   11   12 	13	 14	  15   16   17  18
+var stenaX = [" 5",  " 5",  " 5",  " 5",  " 5",  "15",  "16",  "17", "20", "3", "4", "5", "6", "7", "8", "9", "5", "5", "5"];
+var stenaY = [" 7",  " 8",  " 9",  "10",  "11",  " 5",  " 5",  " 5", "15" ,"19","19","19","19","19","19","19","18","17","16"];
 
 // Кошници за събиране
 let Diamand_max = 2;
@@ -75,12 +80,15 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 //	window.console.log("natisnat e buton");
 
 	
-	document.addEventListener('keydown', logKey);
+	document.addEventListener('keydown', KeyPressed);
+	document.addEventListener('keyup', KeyUp);
        
   
 	i=i+1;
 
-
+	// Изтрива стария човечето
+	ctx.clearRect (myX, myY , DefaultSize , DefaultSize );
+	
 	// Проверка за ударена кошница
 	for (k = 1; k <= Diamand_max; k++) {
 
@@ -122,7 +130,7 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 	}
 
 	// Проверка дали е ударено всяко едно блокче от стена
-	for (k = 1; k <= StenaMax; k++) {
+	for (k = 0; k <= StenaMax; k++) {
 
 		ot_dolu   	= 0;
 		ot_gore   	= 0;
@@ -161,7 +169,7 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		if ( myY < 630 ) {		// Проверка дали е в екрана, дали не напуска екрана
 			if ( ot_dolu == 0) {
 				// Движение НАДОЛУ
-				myY=myY+MYmoveY;
+				myY=myY+MYmoveY+running;
 			} else {
 			}
 		}
@@ -170,7 +178,7 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		if ( myY > DefaultSize ) {
 			if ( ot_gore == 0) {
 				// Движение НАГОРЕ
-				myY=myY+MYmoveY;
+				myY=myY+MYmoveY-running;
 			} else {
 			}
 		}
@@ -179,7 +187,7 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		if ( myX < 960 ) {
 			if ( ot_diasno == 0) {
 				// Движение НАДЯСНО
-				myX=myX+MYmoveX;
+				myX=myX+MYmoveX+running;
 			} else {
 			}
 		}
@@ -188,13 +196,20 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 		if ( myX > DefaultSize ) {
 			if ( ot_liavo == 0) {
 				// Движение НАЛЯВО
-				myX=myX+MYmoveX;
+				myX=myX+MYmoveX-running;
 			} else {
 			}
 		}
 	}
 
+	// Нашето човече
 	
+	if ( MYmoveX >= 0 ) {
+		ctx.drawImage(img1, myX, myY, DefaultSize, DefaultSize);	
+	}
+	if ( MYmoveX < 0 ) {
+		ctx.drawImage(img4, myX, myY, DefaultSize, DefaultSize);	
+	}
 	
 	// Изтрива стария резултат
 	ctx.clearRect ( TextX_1+115 , TextY_1 + TextY_redove*2-16 , 60 , 20 );
@@ -206,20 +221,27 @@ let udarena_nadolu = 0, udarena_nadiasno = 0, udarena = 0, udarena_naliavo= 0, u
 	// Печата новия:
 	ctx.fillText(CollectDiamonds, 	TextX_1+115, TextY_1 + TextY_redove*2); 
 	
-	// Нашето човече
-	ctx.drawImage(img3, myX, myY, DefaultSize, DefaultSize);	
-	
-
-
-
-
-	
 }
 
-function logKey(e) {
+function KeyUp(e) {
 //	window.console.log("natisnat e buton 8888");
 	window.console.log(e.code);
 
+
+	if (e.code == "KeyR") {		// Running
+		console.log("Otpusnat klavish R") 
+		running = 0;
+	}	
+}
+
+function KeyPressed(e) {
+//	window.console.log("natisnat e buton 8888");
+	window.console.log(e.code);
+
+	if (e.code == "KeyR") {		// Running
+		console.log("Natisnat klavish R") 
+		running = running_step;
+	}	
 
 	
 
@@ -254,6 +276,8 @@ function logKey(e) {
 		MYmoveY=stopY
 	}
   	
+	window.console.log("running");
+	window.console.log(running);
 
 	
 }
@@ -261,26 +285,43 @@ function logKey(e) {
 function init() {
 	let k;
 	
-	// Рисува стени
+	// Рисува стени по хоризонтала горе и долу
 	for (k = 0; k < 34; k++) {
-		ctx.drawImage(img4, DefaultSize*k,   0, DefaultSize, DefaultSize);
-		ctx.drawImage(img4, DefaultSize*k, 660, DefaultSize, DefaultSize);
+		//Горна стена
+		ctx.drawImage(img2, DefaultSize*k,   0, DefaultSize, DefaultSize);
+		//Долна стена
+		ctx.drawImage(img2, DefaultSize*k, 660, DefaultSize, DefaultSize);
 	} 
 
 	for (k = 0; k < 23; k++) {
-		ctx.drawImage(img4,   0, DefaultSize*k, DefaultSize, DefaultSize);
-		ctx.drawImage(img4, 990, DefaultSize*k, DefaultSize, DefaultSize);
+		//Лява стена
+		ctx.drawImage(img2,   0, DefaultSize*k, DefaultSize, DefaultSize);
+		//Дясна стена
+		ctx.drawImage(img2, 990, DefaultSize*k, DefaultSize, DefaultSize);
 	} 
 	
 	// Рисува прегради, стена 1, хоризонтална
-	for (k = 0; k <= StenaMax; k++) {
-		ctx.drawImage(img4, stenaX[k]*DefaultSize, stenaY[k]*DefaultSize, DefaultSize, DefaultSize);
-	} 
+//	for (k = 0; k <= StenaMax; k++) {
+	k=0;
+	while(stenaX[k]>=1 && stenaX[k]<=100 && stenaY[k]>=1 && stenaY[k]<=100){
+//	while(k<15){
+		window.console.log(k);
+		window.console.log(stenaX[k]);
 
+		ctx.drawImage(img2, stenaX[k]*DefaultSize, stenaY[k]*DefaultSize, DefaultSize, DefaultSize);
+
+		k++;
+	} 
+	StenaMax = k-1;
+		window.console.log("StenaMax=");
+		window.console.log(StenaMax);
+	
 	for (k = 0; k <= Diamand_max; k++) {
-		ctx.drawImage(img5, DiamandX[k]*DefaultSize, DiamandY[k]*DefaultSize, DefaultSize, DefaultSize);
+		ctx.drawImage(img3, DiamandX[k]*DefaultSize, DiamandY[k]*DefaultSize, DefaultSize, DefaultSize);
 	} 
-
+//	for (k = 2; k < 34; k++) {
+//		ctx.drawImage(img2, k*DefaultSize, 20*DefaultSize, DefaultSize, DefaultSize);
+//	}
 
 
 
@@ -306,8 +347,6 @@ function update_function() {
 function a () {
 alert ("DA");
 }
-   
-   
 
 		</script>
 
