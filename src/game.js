@@ -17,11 +17,16 @@ const START = {
 };
 let myX = START.x, myY = START.y, MYmoveX=stopX, MYmoveY=stopY;
 
+let TextX_1 = 1050;
+let TextY_1 = 20;
+let TextY_redove = 20;
 
+let CollectDiamonds = 0;
 
 let ccc = document.getElementById("canvas-id");
 const ctx = ccc.getContext('2d');
 const brickwall = document.getElementById("scream2");
+const diamond   = document.getElementById("scream3");
 
 const img1 = document.getElementById("scream1");
 const img2 = document.getElementById("scream2");
@@ -32,16 +37,16 @@ const img4 = document.getElementById("scream4");
 let map =[
   "*******************",
   "*    *         ****",
-  "*    *           **",
+  "*    *   D       **",
+  "*    *             ",
   "*    *         **  ",
   "*    *         **  ",
   "*    *         **  ",
   "*    *         **  ",
-  "*    *         **  ",
-  "*    *         **  ",
-  "*    *         **  ",
-  "*    *         **  ",
-  "*  X           *  *",
+  "*   D*         **  ",
+  "*    *             ",
+  "*    *            *",
+  "*                 *",
   "*    *         ****",
   "*******************"
 ];
@@ -129,6 +134,16 @@ function drawFunction() {
 	document.addEventListener('keyup', KeyUp);
 
 
+	// Проверка дали ВЗИМА диамант
+	if(map[myY][myX] == 'D') {
+		CollectDiamonds++;
+		// Изтрива Диаманта
+		map[myY][myX] = ' ';		// НЕ РАБОТИ - НЕ ИСКА ДА ГО ТРИЕ
+		console.log(map[myY][myX]);
+	}			
+
+
+
 //console.log('map.length')
 //console.log(map.length)
 	for(let r=0; r<map.length; r++){
@@ -138,8 +153,9 @@ function drawFunction() {
 //console.log(map[p][q])
             //console.log(r + " -- " + c)
 			if(map[r][c]=='*'){
-				//console.log(r*blockSize.height+"  " + c*blockSize.width);
 				ctx.drawImage (brickwall,c*blockSize.width,r*blockSize.height,blockSize.width,blockSize.height);
+			} else if(map[r][c]=='D'){
+				ctx.drawImage (diamond,c*blockSize.width,r*blockSize.height,blockSize.width,blockSize.height);
 			}
 		}
 	}
@@ -158,14 +174,14 @@ function drawFunction() {
 	
 	if(map[myY][myX]=='*') {
 		console.log("udareno blockche vatre");
-		MYmoveX = 0;
-		MYmoveY = 0;
+//		MYmoveX = 0;
+//		MYmoveY = 0;
 	}	
-	
+
 	// Проверка дали е ВЪТРЕ В екрана
 	if ( MYmoveY > 0 ) {		// Проверка дали се движи надолу
 		if ( myY < (map.length-2) ) {		// Проверка дали е в екрана, дали не напуска екрана
-			if ( ot_dolu == 0) {
+			if(map[myY+1][myX]!='*') {
 				// Движение НАДОЛУ
 				myY=myY+MYmoveY+running;
 			} else {
@@ -175,7 +191,7 @@ function drawFunction() {
 	}
 	if ( MYmoveY < 0 ) {
 		if ( myY > 1 ) {
-			if ( ot_gore == 0) {
+			if(map[myY-1][myX]!='*') {
 				// Движение НАГОРЕ
 				myY=myY+MYmoveY-running;
 			} else {
@@ -185,7 +201,7 @@ function drawFunction() {
 	}
 	if ( MYmoveX > 0 ) {
 		if ( myX < (map[0].length-2) ) {
-			if ( ot_diasno == 0) {
+			if(map[myY][myX+1]!='*') {
 				// Движение НАДЯСНО
 				myX=myX+MYmoveX+running;
 			} else {
@@ -195,7 +211,7 @@ function drawFunction() {
 	}
 	if ( MYmoveX < 0 ) {
 		if ( myX > 1 ) {
-			if ( ot_liavo == 0) {
+			if(map[myY][myX-1]!='*') {
 				// Движение НАЛЯВО
 				myX=myX+MYmoveX-running;
 			} else {
@@ -204,7 +220,7 @@ function drawFunction() {
 			console.log("Izvun ekran naliavo");
 	}
 	
-	
+			
 	// Нашето човече
 	if ( MYmoveX >= 0 ) {
 		ctx.drawImage(img1, myX*blockSize.width, myY*blockSize.height, blockSize.width, blockSize.height);	
@@ -212,6 +228,16 @@ function drawFunction() {
 	if ( MYmoveX < 0 ) {
 		ctx.drawImage(img4, myX*blockSize.width, myY*blockSize.height, blockSize.width, blockSize.height);	
 	}
+	
+	// Изтрива стария резултат
+	ctx.clearRect ( TextX_1+115 , TextY_1 + TextY_redove*2-16 , 60 , 20 );
+
+	ctx.font = "20px Verdana";
+	ctx.fillText("Hello World", TextX_1, TextY_1 + TextY_redove*1); 
+	ctx.fillText("Резултат :", 	TextX_1, TextY_1 + TextY_redove*2); 
+
+	// Печата новия:
+	ctx.fillText(CollectDiamonds, 	TextX_1+115, TextY_1 + TextY_redove*2); 
 
 	
 }
