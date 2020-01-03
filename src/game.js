@@ -32,6 +32,7 @@ const img1 = document.getElementById("scream1");
 const img2 = document.getElementById("scream2");
 const img3 = document.getElementById("scream3");
 const img4 = document.getElementById("scream4");
+const img5 = document.getElementById("scream5");
 
 
 let map =[
@@ -57,6 +58,7 @@ const blockSize={
 console.log(map)
 console.log(map.length)		// Максимално надолу
 console.log(map[0].length)	// Максимално надясно
+
 
 
 function KeyUp(e) {
@@ -126,7 +128,11 @@ function init() {
 function drawFunction() {
 
 	// Изтрива старото човече
-	ctx.clearRect (myX*blockSize.width, myY*blockSize.height, blockSize.width, blockSize.height)
+//	ctx.clearRect (myX*blockSize.width, myY*blockSize.height, blockSize.width, blockSize.height)
+
+	// Печата background
+	ctx.drawImage(img5, 0, 0, 800, 600);	
+
 
 
 
