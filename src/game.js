@@ -20,9 +20,11 @@ let myX = START.x, myY = START.y, MYmoveX=stopX, MYmoveY=stopY;
 let TextX_1 = 1050;
 let TextY_1 = 20;
 let TextY_redove = 20;
-
+let TextX_2 = 1000;
+let	TextY_Level = 20;
+let TextY_2 = 60;
 let CollectDiamonds = 0;
-
+let Level = 1;
 let ccc = document.getElementById("canvas-id");
 const ctx = ccc.getContext('2d');
 const brickwall = document.getElementById("scream2");
@@ -33,33 +35,31 @@ const img2 = document.getElementById("scream2");
 const img3 = document.getElementById("scream3");
 const img4 = document.getElementById("scream4");
 const img5 = document.getElementById("scream5");
+const img6 = document.getElementById("scream6");
+const img7 = document.getElementById("scream7");
 
 
 let map =[
-  "*******************",
-  "*    *         ****",
-  "*    *   D       **",
-  "*    *             ",
-  "*    *         **  ",
-  "*    *         **  ",
-  "*    *         **  ",
-  "*    *         **  ",
-  "*   D*         **  ",
-  "*    *             ",
-  "*    *            *",
-  "*                 *",
-  "*    *         ****",
-  "*******************"
+  "     *             ",
+  "     *            *",
+  "     *   D        *",
+  "     *             ",
+  "     *             ",
+  "     *             ",
+  "     *             ",
+  "     *           * ",
+  "    D*      ****   ",
+  "     *             ",
+  "     *            *",
+  "                  *",
+  "     *         ****",
+  "                   "
 ];
+
 const blockSize={
- width: 30,
- height: 30
+ width: 50,
+ height: 50
 };
-console.log(map)
-console.log(map.length)		// Максимално надолу
-console.log(map[0].length)	// Максимално надясно
-
-
 
 function KeyUp(e) {
 //	window.console.log("natisnat e buton 8888");
@@ -70,6 +70,27 @@ function KeyUp(e) {
 		console.log("Otpusnat klavish R") 
 		running = 0;
 	}	
+	
+	if (e.code == "ArrowDown") {		// Стрелка надолу
+		MYmoveY= stopY;
+		MYmoveX= stopX;
+		
+	}	
+	if (e.code == "ArrowUp") {
+		MYmoveY= stopX;
+		MYmoveX= stopY;
+		
+	}	
+	if (e.code == "ArrowLeft") {
+		MYmoveX = stopX;
+		MYmoveY = stopY;
+		
+	}	
+	if (e.code == "ArrowRight") {
+		MYmoveX = stopX;
+		MYmoveY = stopY;
+	}	
+
 }
 
 function KeyPressed(e) {
@@ -121,7 +142,7 @@ function init() {
 	
 	
 	drawFunction();
-	setInterval(drawFunction, 200);
+	setInterval(drawFunction, 100);
 }
 
 // Главна функция, тук прави цикъл през 30мс
@@ -130,9 +151,57 @@ function drawFunction() {
 	// Изтрива старото човече
 //	ctx.clearRect (myX*blockSize.width, myY*blockSize.height, blockSize.width, blockSize.height)
 
-	// Печата background
-	ctx.drawImage(img5, 0, 0, 800, 600);	
+	// Проверява кое ниво е в момента
+	// и увеличава нивото при достигане на най-дясно
+	if ( myX >= map[0].length-1 ) {
+		Level++;
+		myX = START.x;
+		myY = START.y;
+	}
 
+
+	// Печата background
+	if ( Level == 1 ) {
+		ctx.drawImage(img5, 0, 0, 950, 700);	
+	}
+	if ( Level == 2 ) {
+		ctx.drawImage(img6, 0, 0, 950, 700);	
+		map =[
+			"*******************",
+			"*                 *",
+			"*         *       *",
+			"*    D    *        ",
+			"*         *        ",
+			"*         *        ",
+			"*                  ",
+			"*      D           ",
+			"*                  ",
+			"*                  ",
+			"***               *",
+			"*          D      *",
+			"*              ****",
+			"*******************"
+		];
+	}
+	if ( Level == 3 ) {
+		ctx.drawImage(img7, 0, 0, 950, 700);	
+		map =[
+			"*******************",
+			"*                 *",
+			"*         *       *",
+			"*    D    *        ",
+			"*         *        ",
+			"*         *        ",
+			"*                  ",
+			"*      D           ",
+			"*                  ",
+			"*                  ",
+			"***               *",
+			"*          D      *",
+			"*              ****",
+			"*******************"
+		];
+	}
 
 
 
@@ -144,20 +213,14 @@ function drawFunction() {
 	if(map[myY][myX] == 'D') {
 		CollectDiamonds++;
 		// Изтрива Диаманта
-		map[myY][myX] = ' ';		// НЕ РАБОТИ - НЕ ИСКА ДА ГО ТРИЕ
-		console.log(map[myY][myX]);
+		let res = map[myY].replace("D", " ");
+		map[myY] = res;
 	}			
 
 
 
-//console.log('map.length')
-//console.log(map.length)
 	for(let r=0; r<map.length; r++){
-//console.log('map[p].length')
-//console.log(map[r])
 		for(let c=0; c<map[r].length; c++){
-//console.log(map[p][q])
-            //console.log(r + " -- " + c)
 			if(map[r][c]=='*'){
 				ctx.drawImage (brickwall,c*blockSize.width,r*blockSize.height,blockSize.width,blockSize.height);
 			} else if(map[r][c]=='D'){
@@ -166,24 +229,6 @@ function drawFunction() {
 		}
 	}
 	
-	// Прави проверки дали е ударено нещо
-//	for(let r=0; r<map.length; r++){
-//		for(let c=0; c<map[r].length; c++){
-//            //console.log(r + " -- " + c)
-//			if(map[r][c]=='*' && myX==c && myY==r){
-//				console.log("udareno blockche vatre");
-//				MYmoveX = 0;
-//				MYmoveY = 0;
-//			}
-//		}
-//	}
-	
-	if(map[myY][myX]=='*') {
-		console.log("udareno blockche vatre");
-//		MYmoveX = 0;
-//		MYmoveY = 0;
-	}	
-
 	// Проверка дали е ВЪТРЕ В екрана
 	if ( MYmoveY > 0 ) {		// Проверка дали се движи надолу
 		if ( myY < (map.length-2) ) {		// Проверка дали е в екрана, дали не напуска екрана
@@ -206,7 +251,7 @@ function drawFunction() {
 			console.log("Izvun ekran nagore");
 	}
 	if ( MYmoveX > 0 ) {
-		if ( myX < (map[0].length-2) ) {
+		if ( myX < (map[0].length-1) ) {
 			if(map[myY][myX+1]!='*') {
 				// Движение НАДЯСНО
 				myX=myX+MYmoveX+running;
@@ -237,13 +282,17 @@ function drawFunction() {
 	
 	// Изтрива стария резултат
 	ctx.clearRect ( TextX_1+115 , TextY_1 + TextY_redove*2-16 , 60 , 20 );
-
+	ctx.clearRect ( TextX_1+115 , TextY_1 + TextY_redove*3-16 , 60 , 20 );
+	
+	
 	ctx.font = "20px Verdana";
 	ctx.fillText("Hello World", TextX_1, TextY_1 + TextY_redove*1); 
 	ctx.fillText("Резултат :", 	TextX_1, TextY_1 + TextY_redove*2); 
-
-	// Печата новия:
+	ctx.fillText("Ниво :", 	TextX_1, TextY_1 + TextY_redove*3); 
+	// Печата резултат:
 	ctx.fillText(CollectDiamonds, 	TextX_1+115, TextY_1 + TextY_redove*2); 
+	// Печата ниво
+	ctx.fillText(Level,TextX_1+115, TextY_1 + TextY_redove*3); 
 
 	
 }
