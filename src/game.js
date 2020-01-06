@@ -1,10 +1,6 @@
 ﻿console.log("aaaaaa");
 
 	  
-let running = 0;			// Дали тича в момента
-let running_step = 4;		// С колко да тича
-let ot_dolu=0, ot_gore=0, ot_diasno=0, ot_liavo=0;
-
 
 const moveX = 1;
 const moveY = 1;
@@ -25,6 +21,8 @@ let	TextY_Level = 20;
 let TextY_2 = 60;
 let CollectDiamonds = 0;
 let Level = 1;
+let Maxlevel = 6;
+
 let ccc = document.getElementById("canvas-id");
 const ctx = ccc.getContext('2d');
 const brickwall = document.getElementById("scream2");
@@ -49,11 +47,11 @@ let map =[
   "     *             ",
   "     *           * ",
   "    D*      ****   ",
-  "     *             ",
-  "     *            *",
-  "                  *",
-  "     *         ****",
-  "                   "
+  "                   ",
+  "qqqqqqqqqqqqq      ",
+  "qqqqqqqqqqqqqqqqqqq",
+  "qqqqqqqqqqqqqqqqqqq",
+  "qqqqqqqqqqqqqqqqqqq"
 ];
 
 const blockSize={
@@ -65,12 +63,6 @@ function KeyUp(e) {
 //	window.console.log("natisnat e buton 8888");
 	window.console.log(e.code);
 
-
-	if (e.code == "KeyR") {		// Running
-		console.log("Otpusnat klavish R") 
-		running = 0;
-	}	
-	
 	if (e.code == "ArrowDown") {		// Стрелка надолу
 		MYmoveY= stopY;
 		MYmoveX= stopX;
@@ -96,13 +88,6 @@ function KeyUp(e) {
 function KeyPressed(e) {
 //	window.console.log("natisnat e buton 8888");
 	window.console.log(e.code);
-
-	if (e.code == "KeyR") {		// Running
-		console.log("Natisnat klavish R") 
-		running = running_step;
-	}	
-
-	
 
 	// Проверява за стрелка надолу
 	if (e.code == "ArrowDown") {		// Стрелка надолу
@@ -153,10 +138,20 @@ function drawFunction() {
 
 	// Проверява кое ниво е в момента
 	// и увеличава нивото при достигане на най-дясно
-	if ( myX >= map[0].length-1 ) {
-		Level++;
+
+	if ( myX >= map[0].length-1 ) {//Ако e достигнат десния край на екрана
 		myX = START.x;
 		myY = START.y;
+		window.console.log(Level);
+		if ( Level<Maxlevel){
+			Level++;	
+		} else {	// Край на играта
+			ctx.font = "120px Verdana";
+			ctx.fillText("The END...", 200, 400); 
+			MYmoveX = stopX;
+			MYmoveY = stopY;
+
+		}
 	}
 
 
@@ -167,7 +162,7 @@ function drawFunction() {
 	if ( Level == 2 ) {
 		ctx.drawImage(img6, 0, 0, 950, 700);	
 		map =[
-			"*******************",
+			"                   ",
 			"*                 *",
 			"*         *       *",
 			"*    D    *        ",
@@ -202,8 +197,44 @@ function drawFunction() {
 			"*******************"
 		];
 	}
-
-
+	if ( Level == 4 ) {
+		ctx.drawImage(img7, 0, 0, 950, 700);	
+		map =[
+			"*******************",
+			"*                 *",
+			"*         *       *",
+			"*    D    *        ",
+			"*         *        ",
+			"*         *        ",
+			"*                  ",
+			"*      D           ",
+			"*                  ",
+			"*                  ",
+			"***               *",
+			"*          D      *",
+			"*              ****",
+			"*******************"
+		];
+	}
+	if ( Level == 5 ) {
+		ctx.drawImage(img7, 0, 0, 950, 700);	
+		map =[
+			"*******************",
+			"*                 *",
+			"*         *       *",
+			"*    D    *        ",
+			"*         *        ",
+			"*         *        ",
+			"*                  ",
+			"*      D           ",
+			"*                  ",
+			"*                  ",
+			"***               *",
+			"*          D      *",
+			"*              ****",
+			"*******************"
+		];
+	}
 
 	document.addEventListener('keydown', KeyPressed);
 	document.addEventListener('keyup', KeyUp);
@@ -232,19 +263,19 @@ function drawFunction() {
 	// Проверка дали е ВЪТРЕ В екрана
 	if ( MYmoveY > 0 ) {		// Проверка дали се движи надолу
 		if ( myY < (map.length-2) ) {		// Проверка дали е в екрана, дали не напуска екрана
-			if(map[myY+1][myX]!='*') {
+			if(map[myY+1][myX]!='*' && map[myY+1][myX]!='q' ) {
 				// Движение НАДОЛУ
-				myY=myY+MYmoveY+running;
+				myY=myY+MYmoveY;
 			} else {
 			}
 		} else
 			console.log("Izvun ekran nadolu");
 	}
 	if ( MYmoveY < 0 ) {
-		if ( myY > 1 ) {
-			if(map[myY-1][myX]!='*') {
+		if ( myY >= 1 ) {
+			if(map[myY-1][myX]!='*' && map[myY-1][myX]!='q' ) {
 				// Движение НАГОРЕ
-				myY=myY+MYmoveY-running;
+				myY=myY+MYmoveY;
 			} else {
 			}
 		} else
@@ -252,19 +283,19 @@ function drawFunction() {
 	}
 	if ( MYmoveX > 0 ) {
 		if ( myX < (map[0].length-1) ) {
-			if(map[myY][myX+1]!='*') {
+			if(map[myY][myX+1]!='*' && map[myY][myX+1]!='q' ) {
 				// Движение НАДЯСНО
-				myX=myX+MYmoveX+running;
+				myX=myX+MYmoveX;
 			} else {
 			}
 		} else
 			console.log("Izvun ekran nadiasno");
 	}
 	if ( MYmoveX < 0 ) {
-		if ( myX > 1 ) {
-			if(map[myY][myX-1]!='*') {
+		if ( myX >= 1 ) {
+			if(map[myY][myX-1]!='*' && map[myY][myX-1]!='q' ) {
 				// Движение НАЛЯВО
-				myX=myX+MYmoveX-running;
+				myX=myX+MYmoveX;
 			} else {
 			}
 		} else
