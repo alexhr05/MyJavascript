@@ -303,10 +303,28 @@ function drawFunction() {
 	}
 	
 			
-	// Нашето човече
-	if ( MYmoveX >= 0 ) {
-		ctx.drawImage(img1, myX*blockSize.width, myY*blockSize.height, blockSize.width, blockSize.height);	
-	}
+	// За плавно движение между елементите на масива
+	let raz=0, slowX=0, slowY=0;
+	for (raz=0; raz<=blockSize.width; raz++ ) {
+		if ( MYmoveX < 0 )
+			slowX = raz;
+		if ( MYmoveX > 0 )
+			slowX = -raz;
+		if ( MYmoveY < 0 )
+			slowY = raz;
+		if ( MYmoveY > 0 )
+			slowY = -raz;
+
+
+		// Нашето човече
+		ctx.drawImage(img1, myX*blockSize.width+slowX, myY*blockSize.height+slowY, blockSize.width, blockSize.height);	
+		
+		// как да внесем малко забавяне, за да се вижда плавното движение ???
+		
+	}		
+//	if ( MYmoveX >= 0 ) {
+//		ctx.drawImage(img1, myX*blockSize.width, myY*blockSize.height, blockSize.width, blockSize.height);	
+//	}
 	if ( MYmoveX < 0 ) {
 		ctx.drawImage(img4, myX*blockSize.width, myY*blockSize.height, blockSize.width, blockSize.height);	
 	}
