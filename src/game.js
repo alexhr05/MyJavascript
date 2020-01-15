@@ -1,4 +1,4 @@
-var game = function () {
+const game = new function () {
     let level;
     let x;
     let y;
@@ -39,7 +39,7 @@ var game = function () {
         ctx.fillRect(backgroundLevel1Img, 0, 0, canvasWidth, canvasHeight);
         const map = level.map;
         for (let c = 0; c < numberBlocksWidth; c++) {
-            for (let r = 0; r < map.lenght; r++) {
+            for (let r = 0; r < map.length; r++) {
                 switch (map[r][leftBorder + c]) {
                     case '*':
                         ctx.drawImage(brick, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
