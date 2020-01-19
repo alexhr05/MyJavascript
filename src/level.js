@@ -8,19 +8,19 @@ const level = new function () {
         "     *                  *",
         "     *                  *",
         "     *   D              *",
-        "     *             ",
-        "     *             ",
-        "     *             ",
-        "     *             ",
-        "     *           * ",
-		"    D*      ****   ",
-        "                   ",
-        "qqqqqqqqqqqqq      ",
-        "qqqqqqqqqqqqqqqqqqq",
-        "qqqqqqqqqqqqqqqqqqq",
-        "*qqqqqqqqqqqqqqqqqq",
-        "*qqqqqqqqqqqqqqqqqq",
-        "*qqqqqqqqqqqqqqqqqq"		
+        "     *             	  ",
+        "     *                   ",
+        "     *                   ",
+        "     *                   ",
+        "     *           *       ",
+		"    D*      ****         ",
+        "                         ",
+        "qqqqqqqqqqqqq            ",
+        "qqqqqqqqqqqqqqqqqqq      ",
+        "qqqqqqqqqqqqqqqqqqq      ",
+        "*qqqqqqqqqqqqqqqqqq      ",
+        "*qqqqqqqqqqqqqqqqqq      ",
+        "*qqqqqqqqqqqqqqqqqq      "		
     ]);
     this.x = 1;
     this.y = 1;
