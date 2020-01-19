@@ -5,20 +5,22 @@ const level = new function () {
     }
     
     this.map = trasnformMap([
-        "*******************",
-        "*                 *",
-        "*         *       *",
-        "*    D    *        ",
-        "*         *        ",
-        "*         *        ",
-        "*                  ",
-        "*      D           ",
-        "*                  ",
-        "*                  ",
-        "***               *",
-        "*          D      *",
-        "*              ****",
-        "*******************"
+        "     *                  *",
+        "     *                  *",
+        "     *   D              *",
+        "     *             ",
+        "     *             ",
+        "     *             ",
+        "     *             ",
+        "     *           * ",
+		"    D*      ****   ",
+        "                   ",
+        "qqqqqqqqqqqqq      ",
+        "qqqqqqqqqqqqqqqqqqq",
+        "qqqqqqqqqqqqqqqqqqq",
+        "*qqqqqqqqqqqqqqqqqq",
+        "*qqqqqqqqqqqqqqqqqq",
+        "*qqqqqqqqqqqqqqqqqq"		
     ]);
     this.x = 1;
     this.y = 1;
