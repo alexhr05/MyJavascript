@@ -84,9 +84,14 @@ const game = new function () {
 
     };
 	
+	setInterval(drawFunction, 100);
+	
+}();
 
+function checkMove() {
 	document.addEventListener('keydown', KeyPressed);
 	document.addEventListener('keyup', KeyUp);
+
 
 	// Проверка дали ВЗИМА диамант
 	if(map[myY][myX] == 'D') {
@@ -149,11 +154,8 @@ const game = new function () {
 		} else
 			console.log("Izvun ekran naliavo");
 	}
+}
 	
-	setInterval(drawFunction, 100);
-	
-}();
-
 function KeyUp(keyCode) {
 	window.console.log(keyCode.code);
 
