@@ -84,11 +84,14 @@ const game = new function () {
 
     };
 	
+	
+	checkMove ();
+	
 	setInterval(drawFunction, 100);
 	
 }();
 
-function checkMove() {
+checkMove = new function (){
 	document.addEventListener('keydown', KeyPressed);
 	document.addEventListener('keyup', KeyUp);
 
@@ -154,9 +157,9 @@ function checkMove() {
 		} else
 			console.log("Izvun ekran naliavo");
 	}
-}
-	
-function KeyUp(keyCode) {
+}();
+
+KeyUp = new function (keyCode){
 	window.console.log(keyCode.code);
 
 	if (keyCode.code == "ArrowDown") {		// Стрелка надолу
@@ -178,10 +181,9 @@ function KeyUp(keyCode) {
 		MYmoveX = stopX;
 		MYmoveY = stopY;
 	}	
+}();
 
-}
-
-function KeyPressed(keyCode) {
+KeyPressed = new function (keyCode){
 //	window.console.log("natisnat e buton 8888");
 	window.console.log(keyCode.code);
 
@@ -215,6 +217,5 @@ function KeyPressed(keyCode) {
 		MYmoveX=stopX
 		MYmoveY=stopY
 	}
-  
-	
-}
+
+}();
