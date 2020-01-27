@@ -85,15 +85,15 @@ const game = new function () {
     };
 	
 	
-	checkMove ();
+	game.checkMove ();
 	
 	setInterval(drawFunction, 100);
 	
 }();
 
-checkMove = new function (){
-	document.addEventListener('keydown', KeyPressed);
-	document.addEventListener('keyup', KeyUp);
+const checkMove = new function (){
+	document.addEventListener('keydown', game.KeyPressed);
+	document.addEventListener('keyup', game.KeyUp);
 
 
 	// Проверка дали ВЗИМА диамант
@@ -159,7 +159,7 @@ checkMove = new function (){
 	}
 }();
 
-KeyUp = new function (keyCode){
+const KeyUp = new function (keyCode){
 	window.console.log(keyCode.code);
 
 	if (keyCode.code == "ArrowDown") {		// Стрелка надолу
@@ -183,7 +183,7 @@ KeyUp = new function (keyCode){
 	}	
 }();
 
-KeyPressed = new function (keyCode){
+const KeyPressed = new function (keyCode){
 //	window.console.log("natisnat e buton 8888");
 	window.console.log(keyCode.code);
 
