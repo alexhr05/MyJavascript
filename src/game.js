@@ -91,7 +91,7 @@ const game = new function () {
 	
 }();
 
-const checkMove = new function (){
+function this.handleMove (){
 	document.addEventListener('keydown', game.KeyPressed);
 	document.addEventListener('keyup', game.KeyUp);
 
@@ -157,65 +157,8 @@ const checkMove = new function (){
 		} else
 			console.log("Izvun ekran naliavo");
 	}
-}();
-
-const KeyUp = new function (keyCode){
-	window.console.log(keyCode.code);
-
-	if (keyCode.code == "ArrowDown") {		// Стрелка надолу
-		MYmoveY= stopY;
-		MYmoveX= stopX;
-		
-	}	
-	if (keyCode.code == "ArrowUp") {
-		MYmoveY= stopX;
-		MYmoveX= stopY;
-		
-	}	
-	if (keyCode.code == "ArrowLeft") {
-		MYmoveX = stopX;
-		MYmoveY = stopY;
-		
-	}	
-	if (keyCode.code == "ArrowRight") {
-		MYmoveX = stopX;
-		MYmoveY = stopY;
-	}	
-}();
-
-const KeyPressed = new function (keyCode){
-//	window.console.log("natisnat e buton 8888");
-	window.console.log(keyCode.code);
-
-	// Проверява за стрелка надолу
-	if (keyCode.code == "ArrowDown") {		// Стрелка надолу
-//		console.log("Strelka Nadolu") 
-		MYmoveY=moveY;
-		MYmoveX=stopX;
-		
-	}	
-	if (keyCode.code == "ArrowUp") {
-//		console.log("Strelka NAGORE") 
-		MYmoveY=-moveY;
-		MYmoveX=stopX;
-		
-	}	
-	if (keyCode.code == "ArrowLeft") {
-//		console.log("Strelka NALIAVO") 
-		MYmoveX = -moveX;
-		MYmoveY =  stopY;
-		
-	}	
-	if (keyCode.code == "ArrowRight") {
-//		console.log("Strelka NADIASNO") 
-		MYmoveX = moveX;
-		MYmoveY = stopY;
-	}	
+};
 
 
-	if (keyCode.code == "Space") {
-		MYmoveX=stopX
-		MYmoveY=stopY
-	}
 
-}();
+
