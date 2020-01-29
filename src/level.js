@@ -1,7 +1,8 @@
 
 const level = new function () {
     function trasnformMap(_map) {
-        return _map.map(x => x.split(""));
+  
+	   return _map.map(x => x.split(""));
     }
     
     this.map = trasnformMap([
