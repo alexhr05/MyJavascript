@@ -8,7 +8,10 @@ const game = new function () {
             x: 3,
             y: 3,
 	};
-	let myX = START.x, myY = START.y, MYmoveX=stopX, MYmoveY=stopY;
+	this.myX = START.x;
+	this.myY = START.y;
+	this.MYmoveX=stopX;
+	this.MYmoveY=stopY;
 
     let iAmSpeed = false;
     let speedState = false;
