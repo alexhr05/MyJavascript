@@ -1,167 +1,114 @@
 const game = new function () {
-    let level;
-	const moveX = 1;
-	const moveY = 1;
-	const stopX = 0;
-	const stopY = 0;
-	const START = {
-            x: 3,
-            y: 3,
-	};
-	this.myX = START.x;
-	this.myY = START.y;
-	this.MYmoveX=stopX;
-	this.MYmoveY=stopY;
+	let level;
+	/*	const moveX = 1;
+		const moveY = 1;
+		const stopX = 0;
+		const stopY = 0;
+		let x
+		const START = {
+			x: 3,
+			y: 3,
+		};
+		this.myX = START.x;
+		this.myY = START.y;
+		this.MYmoveX = stopX;
+		this.MYmoveY = stopY;
+	*/
+	let x;
+	let y;
+	let iAmSpeed = false;
+	let speedState = false;
+	let characterWalkingLeft = true;
 
-    let iAmSpeed = false;
-    let speedState = false;
+	const characterWalkingRightImg = document.getElementById("characterWalkingRight");
+	const brickImg = document.getElementById("brick");
+	const diamondTransparentImg = document.getElementById("diamondTransparent");
+	const characterWalkingLeftImg = document.getElementById("characterWalkingLeft");
+	const backgroundLevel1Img = document.getElementById("backgroundLevel1");
+	const backgroundLevel2Img = document.getElementById("backgroundLevel2");
+	const backgroundLevel3Img = document.getElementById("backgroundLevel3");
+	const canvas = document.getElementById("canvas-id");
+	const ctx = canvas.getContext('2d');
 
+	const canvasWidth = canvas.clientWidth;
+	const canvasHeight = canvas.clientHeight;
+	const blockSizeWidth = 50;
+	const blockSizeHeight = 50;
+	const numberBlocksWidth = canvasWidth / blockSizeWidth;
+	const blockLeftFromCharacter = numberBlocksWidth / 3;
+	let leftBorder = 0;
 
-    const characterWalkingRightImg = document.getElementById("characterWalkingRight");
-    const brickImg = document.getElementById("brick");
-    const diamondTransparentImg = document.getElementById("diamondTransparent");
-    const characterWalkingLeftImg = document.getElementById("characterWalkingLeft");
-    const backgroundLevel1Img = document.getElementById("backgroundLevel1");
-    const backgroundLevel2Img = document.getElementById("backgroundLevel2");
-    const backgroundLevel3Img = document.getElementById("backgroundLevel3");
-    const canvas = document.getElementById("canvas-id");
-    const ctx = canvas.getContext('2d');
+	function drawFunction() {
+		//За бързина     
+		speedState = !speedState;
 
-    const canvasWidth = canvas.clientWidth;
-    const canvasHeight = canvas.clientHeight;
-    const blockSizeWidth = 50;
-    const blockSizeHeight = 50;
-    const numberBlocksWidth = canvasWidth / blockSizeWidth;
-    const blockLeftFromCharacter = numberBlocksWidth / 3;
-    let leftBorder = 0;
+		if (!iAmSpeed && !speedState) {
+			return;
+		}
 
+		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+		ctx.drawImage(backgroundLevel1Img, 0, 0, canvasWidth, canvasHeight);
 
-
-    function drawFunction() {
-        //За бързина     
-        speedState = !speedState;
-
-        if (!iAmSpeed && !speedState) {
-            return;
-        }
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-
-        ctx.drawImage(backgroundLevel1Img, 0, 0, canvasWidth, canvasHeight);
-
-        const map = level.map;
-        for (let c = 0; c < numberBlocksWidth; c++) {
-            for (let r = 0; r < map.length; r++) {
-                switch (map[r][leftBorder + c]) {
-                    case '*':
-                        ctx.drawImage(brick, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-                        break;
-                    case 'D':
-                        ctx.drawImage(diamondTransparentImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-                        break;
-
-                }
-
-
-
-            }
-
-
-
-        }
-
-
-
-
-
-    };
-
-    this.init = function (_level) {
-        level = _level;
-        x = level.x;
-        y = level.y;
-
-
-
-
-
-    };
-	
-	
-	game.checkMove ();
-	
-	setInterval(drawFunction, 100);
-	
-}();
-
-function this.handleMove (){
-	document.addEventListener('keydown', game.KeyPressed);
-	document.addEventListener('keyup', game.KeyUp);
-
-
-	// Проверка дали ВЗИМА диамант
-	if(map[myY][myX] == 'D') {
-		CollectDiamonds++;
-		// Изтрива Диаманта
-		let res = map[myY].replace("D", " ");
-		map[myY] = res;
-	}			
-
-
-
-	for(let r=0; r<map.length; r++){
-		for(let c=0; c<map[r].length; c++){
-			if(map[r][c]=='*'){
-				ctx.drawImage (brickwall,c*blockSize.width,r*blockSize.height,blockSize.width,blockSize.height);
-			} else if(map[r][c]=='D'){
-				ctx.drawImage (diamond,c*blockSize.width,r*blockSize.height,blockSize.width,blockSize.height);
+		const map = level.map;
+		for (let c = 0; c < numberBlocksWidth; c++) {
+			for (let r = 0; r < map.length; r++) {
+				switch (map[r][leftBorder + c]) {
+					case '*':
+						ctx.drawImage(brick, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+						break;
+					case 'D':
+						ctx.drawImage(diamondTransparentImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+						break;
+				}
 			}
 		}
-	}
-	
-	// Проверка дали е ВЪТРЕ В екрана
-	if ( MYmoveY > 0 ) {		// Проверка дали се движи надолу
-		if ( myY < (map.length-2) ) {		// Проверка дали е в екрана, дали не напуска екрана
-			if(map[myY+1][myX]!='*' && map[myY+1][myX]!='q' ) {
-				// Движение НАДОЛУ
-				myY=myY+MYmoveY;
-			} else {
+		ctx.drawImage(characterWalkingLeft ?/*Когато е истина*/  characterWalkingLeftImg :/*Когато е лъжа*/  characterWalkingRightImg, x, y, blockSizeWidth, blockSizeHeight);
+	};
+
+	this.init = function (_level) {
+		level = _level;
+		//Записва й се стойноста
+		console.log(level);
+		x = level.x();
+		y = level.y();
+
+		setInterval(drawFunction, 100);
+
+	};
+
+	this.handleMove = function (scaleX /* Колко бързо се движи по x надясно и наляво*/, scaleY/* Колко бързо се движи по y надясно и наляво*/) {
+
+		//Нова позиция
+		const nx = x + level.vX() * scaleX;
+		const ny = y + level.vY() * scaleY;
+		const mapX = nx / level.squareSizeX();
+		const mapY = ny / level.squareSizeY();
+
+		if (scaleX < 0) characterWalkingLeft = true;
+		if (scaleX > 0) characterWalkingLeft = false;
+
+
+		if (map[mapY][mapX] != '*' && map[mapY][mapX] != 'q') {
+			x = nx;
+			y = ny;
+			// Проверка дали ВЗИМА диамант
+			if (map[mapY][mapX] == 'D') {
+				// Изтрива Диаманта
+
+				map[mapY][mapX] = ' ';
+
+				CollectDiamonds++;
+
 			}
-		} else
-			console.log("Izvun ekran nadolu");
-	}
-	if ( MYmoveY < 0 ) {
-		if ( myY >= 1 ) {
-			if(map[myY-1][myX]!='*' && map[myY-1][myX]!='q' ) {
-				// Движение НАГОРЕ
-				myY=myY+MYmoveY;
-			} else {
-			}
-		} else
-			console.log("Izvun ekran nagore");
-	}
-	if ( MYmoveX > 0 ) {
-		if ( myX < (map[0].length-1) ) {
-			if(map[myY][myX+1]!='*' && map[myY][myX+1]!='q' ) {
-				// Движение НАДЯСНО
-				myX=myX+MYmoveX;
-			} else {
-			}
-		} else
-			console.log("Izvun ekran nadiasno");
-	}
-	if ( MYmoveX < 0 ) {
-		if ( myX >= 1 ) {
-			if(map[myY][myX-1]!='*' && map[myY][myX-1]!='q' ) {
-				// Движение НАЛЯВО
-				myX=myX+MYmoveX;
-			} else {
-			}
-		} else
-			console.log("Izvun ekran naliavo");
-	}
-};
+
+		}
 
 
 
+
+
+	};
+
+
+}();
 
