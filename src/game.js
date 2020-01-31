@@ -101,7 +101,15 @@ const game = new function () {
 
 			}
 
+
 		}
+
+		if (mapX>=0 and mapY>=0 and mapX<=numberBlocksWidth and mapY<=map.length)  {
+// Какво да направя тук
+		}
+
+
+
 
 
 
