@@ -12,21 +12,27 @@ this.init = function () {
 			game.handleMove(0,1);
 		}	
 		if (keyCode.code == "ArrowUp") {
-			
+			game.handleMove(0,-1);
 		}	
 		if (keyCode.code == "ArrowLeft") {
-		game.MYmoveX = game.stopX;
+			game.handleMove(-1,0);
+
+			/*	game.MYmoveX = game.stopX;
 		game.MYmoveY = game.stopY;
-		
+	*/	
 		}	
 		if (keyCode.code == "ArrowRight") {
-			game.MYmoveX = game.stopX;
-			game.MYmoveY = game.stopY;
+			game.handleMove(1,0);
+	
+			//		game.MYmoveX = game.stopX;
+	//		game.MYmoveY = game.stopY;
 		}	
 	}
 
 	function KeyPressed(keyCode){
-	//	window.console.log("natisnat e buton 8888");
+	
+	/*
+		//	window.console.log("natisnat e buton 8888");
 		window.console.log(keyCode.code);
 
 		// Проверява за стрелка надолу
@@ -59,7 +65,7 @@ this.init = function () {
 			game.MYmoveX=game.stopX
 			game.MYmoveY=game.stopY
 		}
-
+*/
 	}
 
 }	

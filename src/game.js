@@ -51,7 +51,7 @@ const game = new function () {
 
 		const map = level.map;
 		for (let c = 0; c < numberBlocksWidth; c++) {
-			for (let r = 0; r < map.length; r++) {
+			for (let r = 0; r < level.map.length; r++) {
 				switch (map[r][leftBorder + c]) {
 					case '*':
 						ctx.drawImage(brick, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
@@ -88,7 +88,7 @@ const game = new function () {
 		if (scaleX > 0) characterWalkingLeft = false;
 
 
-		if (map[mapY][mapX] != '*' && map[mapY][mapX] != 'q') {
+		if (map[mapY][mapX] != '*' && map[mapY][mapX] != 'q' && mapX >= 0 && mapY >= 0 && mapX <= numberBlocksWidth && mapY <= level.map.length) {
 			x = nx;
 			y = ny;
 			// Проверка дали ВЗИМА диамант
@@ -103,12 +103,6 @@ const game = new function () {
 
 
 		}
-
-		if (mapX>=0 and mapY>=0 and mapX<=numberBlocksWidth and mapY<=map.length)  {
-// Какво да направя тук
-		}
-
-
 
 
 
