@@ -88,7 +88,7 @@ const game = new function () {
 		if (scaleX > 0) characterWalkingLeft = false;
 
 
-		if (map[mapY][mapX] != '*' && map[mapY][mapX] != 'q' && mapX >= 0 && mapY >= 0 && mapX <= numberBlocksWidth && mapY <= level.map.length) {
+		if (map[mapY][mapX] != '*' && map[mapY][mapX] != 'q' && mapX >= 0 && mapY >= 0 && mapX <= level.map.length && mapY <= numberBlocksWidth) {
 			x = nx;
 			y = ny;
 			// Проверка дали ВЗИМА диамант
