@@ -40,15 +40,18 @@ const game = new function () {
 
 	function drawFunction() {
 		//За бързина     
-		speedState = !speedState;
-
-		if (!iAmSpeed && !speedState) {
-			return;
-		}
-
+		/*		speedState = !speedState;
+		
+				if (!iAmSpeed && !speedState) {
+					return;
+				}
+		*/
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 		ctx.drawImage(backgroundLevel1Img, 0, 0, canvasWidth, canvasHeight);
 
+
+	
+		game.handleMove(0, 1);
 		const map = level.map;
 		for (let c = 0; c < numberBlocksWidth; c++) {
 			for (let r = 0; r < level.map.length; r++) {
@@ -62,7 +65,8 @@ const game = new function () {
 				}
 			}
 		}
-		ctx.drawImage(characterWalkingLeft ?/*Когато е истина*/  characterWalkingLeftImg :/*Когато е лъжа*/  characterWalkingRightImg, x, y, blockSizeWidth, blockSizeHeight);
+		ctx.drawImage(characterWalkingLeft ?/*Когато е истина*/  characterWalkingLeftImg :/*Когато е лъжа*/  characterWalkingRightImg,
+			(x * blockSizeWidth) / level.squareSizeX(), (y * blockSizeHeight) / level.squareSizeY(), blockSizeWidth, blockSizeHeight);
 	};
 
 	this.init = function (_level) {
@@ -77,18 +81,23 @@ const game = new function () {
 	};
 
 	this.handleMove = function (scaleX /* Колко бързо се движи по x надясно и наляво*/, scaleY/* Колко бързо се движи по y надясно и наляво*/) {
-
+		
 		//Нова позиция
 		const nx = x + level.vX() * scaleX;
 		const ny = y + level.vY() * scaleY;
-		const mapX = nx / level.squareSizeX();
-		const mapY = ny / level.squareSizeY();
-
+		const mapX = Math.round(nx / level.squareSizeX());
+		const mapY = Math.round(ny / level.squareSizeY());
+		
 		if (scaleX < 0) characterWalkingLeft = true;
 		if (scaleX > 0) characterWalkingLeft = false;
 
+		const map = level.map;
 
-		if (map[mapY][mapX] != '*' && map[mapY][mapX] != 'q' && mapX >= 0 && mapY >= 0 && mapX <= level.map.length && mapY <= numberBlocksWidth) {
+		console.log(x + " -> " + mapX);
+		console.log(y + " -> " + mapY);
+		/*console.log(map);
+		console.log(map[mapY]);
+*/		if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length && map[mapY][mapX] != '*' && map[mapY][mapX] != 'q') {
 			x = nx;
 			y = ny;
 			// Проверка дали ВЗИМА диамант

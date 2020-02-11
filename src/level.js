@@ -6,22 +6,22 @@ const level = new function () {
     }
 
     this.map = trasnformMap([
-        "     *                  *",
-        "     *                  *",
-        "     *   D              *",
-        "     *             	  ",
-        "     *                   ",
-        "     *                   ",
-        "     *                   ",
-        "     *           *       ",
-        "    D*      ****         ",
+        "                      D  ",
         "                         ",
-        "qqqqqqqqqqqqq            ",
+        "         D               ",
+        "                   	  ",
+        "                         ",
+        "                         ",
+        "                         ",
+        "                 *       ",
+        "    D       ****         ",
+        "                         ",
+        "                         ",
         "qqqqqqqqqqqqqqqqqqq      ",
         "qqqqqqqqqqqqqqqqqqq      ",
         "*qqqqqqqqqqqqqqqqqq      ",
         "*qqqqqqqqqqqqqqqqqq      ",
-        "*qqqqqqqqqqqqqqqqqq      "
+        "*qqqqqqqqqqqqqqqqqq     D"
     ]);
     //За да не могат да се променят
     this.x = () => 1;

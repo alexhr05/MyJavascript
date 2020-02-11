@@ -1,12 +1,13 @@
 const event = new function () {
-	document.addEventListener('keydown', game.KeyPressed);
-	document.addEventListener('keyup', game.KeyUp);
+
 
 	this.init = function () {
-
+		console.log("neshto");
+		document.addEventListener('keydown', KeyPressed);
+		console.log("drugo");
 	}
-	function KeyUp(keyCode) {
-		window.console.log(keyCode.code);
+	function KeyPressed(keyCode) {
+		console.log(keyCode.code);
 
 		if (keyCode.code == "ArrowDown") {		// Стрелка надолу
 			game.handleMove(0, 1);
@@ -22,11 +23,6 @@ const event = new function () {
 		}
 	}
 
-	function KeyPressed(keyCode) {
 
-	}
-
-}	
-	
 
 }();
