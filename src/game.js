@@ -34,8 +34,9 @@ const game = new function () {
 	const canvasHeight = canvas.clientHeight;
 	const blockSizeWidth = 50;
 	const blockSizeHeight = 50;
-	const gravityX=0;
-	const gravityY=1;
+	let gravityX=0;
+	let gravityY=1;
+	const gravitySpeed = 0.5;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
 	const blockLeftFromCharacter = numberBlocksWidth / 3;
 	let leftBorder = 0;
@@ -52,8 +53,9 @@ const game = new function () {
 		ctx.drawImage(backgroundLevel1Img, 0, 0, canvasWidth, canvasHeight);
 
 
-	
-		game.handleMove(gravityX, gravityY);
+		//game.gravity();
+	    gravityY += gravitySpeed;
+		game.handleMove(gravityX,gravityY);
 		const map = level.map;
 		for (let c = 0; c < numberBlocksWidth; c++) {
 			for (let r = 0; r < level.map.length; r++) {
@@ -81,7 +83,7 @@ const game = new function () {
 		setInterval(drawFunction, 100);
 
 	};
-
+	
 	this.handleMove = function (scaleX /* Колко бързо се движи по x надясно и наляво*/, scaleY/* Колко бързо се движи по y надясно и наляво*/) {
 		
 		//Нова позиция
@@ -95,8 +97,8 @@ const game = new function () {
 
 		const map = level.map;
 
-		console.log(x + " -> " + mapX);
-		console.log(y + " -> " + mapY);
+	//	console.log(x + " -> " + mapX);
+	//	console.log(y + " -> " + mapY);
 		/*console.log(map);
 		console.log(map[mapY]);
 */		if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length && map[mapY][mapX] != '*' && map[mapY][mapX] != 'q') {
