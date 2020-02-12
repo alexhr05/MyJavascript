@@ -19,9 +19,9 @@ const level = new function () {
         "                         ",
         "qqqqqqqqqqqqqqqqqqq      ",
         "qqqqqqqqqqqqqqqqqqq      ",
-        "*qqqqqqqqqqqqqqqqqq      ",
-        "*qqqqqqqqqqqqqqqqqq      ",
-        "*qqqqqqqqqqqqqqqqqq     D"
+        "qqqqqqqqqqqqqqqqqqq      ",
+        "qqqqqqqqqqqqqqqqqqq      ",
+        "qqqqqqqqqqqqqqqqqqq     D"
     ]);
     //За да не могат да се променят
     this.x = () => 1;

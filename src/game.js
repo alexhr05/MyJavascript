@@ -34,6 +34,8 @@ const game = new function () {
 	const canvasHeight = canvas.clientHeight;
 	const blockSizeWidth = 50;
 	const blockSizeHeight = 50;
+	const gravityX=0;
+	const gravityY=1;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
 	const blockLeftFromCharacter = numberBlocksWidth / 3;
 	let leftBorder = 0;
@@ -51,7 +53,7 @@ const game = new function () {
 
 
 	
-		game.handleMove(0, 1);
+		game.handleMove(gravityX, gravityY);
 		const map = level.map;
 		for (let c = 0; c < numberBlocksWidth; c++) {
 			for (let r = 0; r < level.map.length; r++) {
