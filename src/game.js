@@ -34,9 +34,11 @@ const game = new function () {
 	const canvasHeight = canvas.clientHeight;
 	const blockSizeWidth = 50;
 	const blockSizeHeight = 50;
-	let gravityX=0;
-	let gravityY=1;
-	const gravitySpeed = 0.5;
+	let gravityX = 0;
+	let gravityY = 1;
+	let oy;
+	this.CollectDiamonds;
+	const gravitySpeed = 0.03;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
 	const blockLeftFromCharacter = numberBlocksWidth / 3;
 	let leftBorder = 0;
@@ -53,9 +55,14 @@ const game = new function () {
 		ctx.drawImage(backgroundLevel1Img, 0, 0, canvasWidth, canvasHeight);
 
 
+		oy = y;
 		//game.gravity();
-	    gravityY += gravitySpeed;
-		game.handleMove(gravityX,gravityY);
+		gravityY += gravitySpeed;
+		game.handleMove(0, gravityY);
+		if (y == oy) {
+			gravityY = 0;
+		}
+
 		const map = level.map;
 		for (let c = 0; c < numberBlocksWidth; c++) {
 			for (let r = 0; r < level.map.length; r++) {
@@ -83,15 +90,15 @@ const game = new function () {
 		setInterval(drawFunction, 100);
 
 	};
-	
+
 	this.handleMove = function (scaleX /* Колко бързо се движи по x надясно и наляво*/, scaleY/* Колко бързо се движи по y надясно и наляво*/) {
-		
+
 		//Нова позиция
 		const nx = x + level.vX() * scaleX;
 		const ny = y + level.vY() * scaleY;
 		const mapX = Math.round(nx / level.squareSizeX());
 		const mapY = Math.round(ny / level.squareSizeY());
-		
+
 		if (scaleX < 0) characterWalkingLeft = true;
 		if (scaleX > 0) characterWalkingLeft = false;
 
@@ -101,29 +108,39 @@ const game = new function () {
 	//	console.log(y + " -> " + mapY);
 		/*console.log(map);
 		console.log(map[mapY]);
-*/		if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length && map[mapY][mapX] != '*' && map[mapY][mapX] != 'q') {
-			x = nx;
-			y = ny;
-			// Проверка дали ВЗИМА диамант
-			if (map[mapY][mapX] == 'D') {
-				// Изтрива Диаманта
+*/		if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length) {
 
-				map[mapY][mapX] = ' ';
+			switch (map) {
+				case '*':
+				case 'q':
+					if (x < nx) {
+						x = level.squareSizeX() * mapX - 1;
+					} else if (x > nx) {
+						x = level.squareSizeX() * (mapX + 1);
+					}
 
-				CollectDiamonds++;
 
+					if (y < ny) {
+						y = level.squareSizeY() * mapY - 1;
+					} else if (y > ny) {
+						y = level.squareSizeY() * (mapY - 1);
+					}
+					break;
+				case 'D':
+					map[mapY][mapX] = ' ';
+					this.CollectDiamonds++;
+
+				default:
+					x = nx;
+					y = ny;
+					break;
 			}
+			// Проверка дали ВЗИМА диамант
 
 
 		}
 
-
-
-
-
-
 	};
-
 
 }();
 
