@@ -110,7 +110,7 @@ const game = new function () {
 		console.log(map[mapY]);
 */		if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length) {
 
-			switch (map) {
+			switch (map[mapY][mapX]) {
 				case '*':
 				case 'q':
 					if (x < nx) {
@@ -123,7 +123,7 @@ const game = new function () {
 					if (y < ny) {
 						y = level.squareSizeY() * mapY - 1;
 					} else if (y > ny) {
-						y = level.squareSizeY() * (mapY - 1);
+						y = level.squareSizeY() * (mapY + 1);
 					}
 					break;
 				case 'D':
