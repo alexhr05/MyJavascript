@@ -38,7 +38,7 @@ const game = new function () {
 	let gravityY = 1;
 	let oy;
 	this.CollectDiamonds;
-	const gravitySpeed = 0.03;
+	const gravitySpeed = 0.025;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
 	const blockLeftFromCharacter = numberBlocksWidth / 3;
 	let leftBorder = 0;
@@ -56,12 +56,16 @@ const game = new function () {
 
 
 		oy = y;
-		//game.gravity();
-		gravityY += gravitySpeed;
+//		game.gravity();
+//		gravityY += gravitySpeed;
 		game.handleMove(0, gravityY);
 		if (y == oy) {
 			gravityY = 0;
-		}
+		} 
+//		if () {
+//			gravityY = 1;
+//		}
+		console.log(" gravity= "+gravityY);
 
 		const map = level.map;
 		for (let c = 0; c < numberBlocksWidth; c++) {
@@ -87,7 +91,7 @@ const game = new function () {
 		x = level.x();
 		y = level.y();
 
-		setInterval(drawFunction, 100);
+		setInterval(drawFunction, 200);
 
 	};
 
@@ -96,32 +100,35 @@ const game = new function () {
 		//Нова позиция
 		const nx = x + level.vX() * scaleX;
 		const ny = y + level.vY() * scaleY;
-		const mapX = Math.round(nx / level.squareSizeX());
-		const mapY = Math.round(ny / level.squareSizeY());
+		//const mapX = Math.round(nx / level.squareSizeX());
+		//const mapY = Math.round(ny / level.squareSizeY());
+		const mapX = nx / level.squareSizeX();
+		const mapY = ny / level.squareSizeY();
 
 		if (scaleX < 0) characterWalkingLeft = true;
 		if (scaleX > 0) characterWalkingLeft = false;
 
 		const map = level.map;
 
-	//	console.log(x + " -> " + mapX);
-	//	console.log(y + " -> " + mapY);
-		/*console.log(map);
-		console.log(map[mapY]);
-*/		if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length) {
+		console.log(x + " x> " + mapX);
+		console.log(y + " y> " + mapY);
+//		console.log(map);
+//		console.log(map[mapY]);
+
+		if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length) {
 
 			switch (map[mapY][mapX]) {
 				case '*':
 				case 'q':
 					if (x < nx) {
-						x = level.squareSizeX() * mapX - 1;
+						x = level.squareSizeX() * (mapX-1);
 					} else if (x > nx) {
-						x = level.squareSizeX() * (mapX + 1);
+						x = level.squareSizeX() * (mapX+1);
 					}
 
 
 					if (y < ny) {
-						y = level.squareSizeY() * mapY - 1;
+						y = level.squareSizeY() * (mapY - 1);
 					} else if (y > ny) {
 						y = level.squareSizeY() * (mapY + 1);
 					}

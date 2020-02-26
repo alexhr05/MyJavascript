@@ -8,7 +8,8 @@ const event = new function () {
 	}
 	function KeyPressed(keyCode) {
 		console.log(keyCode.code);
-
+		this.gravityY = 1;		// Гравитацията се задейства при всеки бутон
+		
 		if (keyCode.code == "ArrowDown") {		// Стрелка надолу
 			game.handleMove(0, 1);
 		}
