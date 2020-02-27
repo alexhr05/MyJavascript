@@ -100,10 +100,10 @@ const game = new function () {
 		//Нова позиция
 		const nx = x + level.vX() * scaleX;
 		const ny = y + level.vY() * scaleY;
-		//const mapX = Math.round(nx / level.squareSizeX());
-		//const mapY = Math.round(ny / level.squareSizeY());
-		const mapX = nx / level.squareSizeX();
-		const mapY = ny / level.squareSizeY();
+		const mapX = Math.round(nx / level.squareSizeX());
+		const mapY = Math.round(ny / level.squareSizeY());
+//		const mapX = nx / level.squareSizeX();
+//		const mapY = ny / level.squareSizeY();
 
 		if (scaleX < 0) characterWalkingLeft = true;
 		if (scaleX > 0) characterWalkingLeft = false;
