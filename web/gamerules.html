@@ -1,77 +1,87 @@
 <html>
 
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-    <title>Finding tresures</title>
-</head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Finding tresures</title>
+    </head>
 
 <body>
     <nav>
         <div class="nav-wrapper #d32f2f red darken-2">
             <a href="#!" class="brand-logo center ">Finding tresures</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="left hide-on-med-and-down">
-                <li><a href="index.html">Home</a></li>
-                <li class="active"><a href="gamerules.html">Game rules</a></li>
-                <li><a href="aboutus.html">About us</a></li>
+                <li><a href="index.html">Начало</a></li>
+                <li class="active"><a href="gamerules.html">Правила</a></li>
+                <li><a href="aboutus.html">За нас</a></li>
             </ul>
         </div>
     </nav>
+
+    <ul id="mobile-demo" class="sidenav">
+        <li><a href="index.html">Начало</a></li>
+        <li><a href="gamerules.html">Правила</a></li>
+        <li><a href="aboutus.html">За нас</a></li>
+        <li class="no-padding">
+        </li>
+    </ul>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.parallax');
-            var instances = M.Parallax.init(elems);
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems);
         });
     </script>
-       
-    
+
 
 
     <body>
-        <div class="center-align parallax-container">
-            <div class="parallax">
-                <img src="img/Rules.png" class="responsive-img">
-            </div>
+        <div class="center-align">
+
+            <img src="img/Rules.png" class="responsive-img">
+
         </div>
+
         <div class="section white">
             <div class="row container center-align>
                 <div id=" flow-text-demo" class="card-panel col s12 m8">
-                    <h3 class="center-align">Правила</h3>
+                <h3 class="center-align">Правила</h3>
 
-                    <p class="flow-text">
-                        1. Потребителите са героят с червената коса, а злодеят е героят с лилавата коса.
-                    </p>
+                <p class="flow-text">
+                    1. Потребителите са героят с червената коса, а злодеят е героят с лилавата коса.
+                </p>
 
-                    <p class="flow-text">
-                        2. Героят може да се движи само наляво, надясно, нагоре и надолу.
-                    </p>
-                    <p class="flow-text">
-                        3. Играта има общо 6 нива.
-                    </p>
+                <p class="flow-text">
+                    2. Героят може да се движи само наляво, надясно, нагоре и надолу.
+                </p>
+                <p class="flow-text">
+                    3. Играта има общо 6 нива.
+                </p>
 
-                    <p class="flow-text">
-                        4. Потребителите не могат да преследват злодея - само злодеят може да преследва потребителите.
-                    </p>
-                    <p class="flow-text">
-                        5. Потребителите трябва да събират диаманти, като за да спечелят, в края на играта, те трябва да
-                        са събрали повече диаманти от злодея.
-                    </p>
+                <p class="flow-text">
+                    4. Потребителите не могат да преследват злодея - само злодеят може да преследва потребителите.
+                </p>
+                <p class="flow-text">
+                    5. Потребителите трябва да събират диаманти, като за да спечелят, в края на играта, те трябва да
+                    са събрали повече диаманти от злодея.
+                </p>
 
-                    <p class="flow-text">
-                        6. При докосване на водата потребителят губи и трябва да започне играта отначало.
-                    </p>
+                <p class="flow-text">
+                    6. При докосване на водата потребителят губи и трябва да започне играта отначало.
+                </p>
 
 
-                </div>
             </div>
         </div>
+        </div>
 
-        <footer class="page-footer #ef5350 red lighten-1">
+        <footer class="page-footer #607d8b blue-grey">
             <div class="container ">
-                <footer class="footer-copyright #ef5350 red lighten-1">
+                <footer class="footer-copyright #607d8b blue-grey">
                     <div class="container center-align">
                         © 2020 Alex Hristov & Betina Yordanova
                     </div>
