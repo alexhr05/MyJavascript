@@ -131,7 +131,7 @@ const game = new function () {
 
 		const map = level.map;
 	
-//		console.log(x + " x> " + mapX);
+//		console.log(" y="+y + " mapY= " +mapY+ " ny= " + ny);
 //		console.log(y + " y> " + mapY);
 //		console.log(map);
 //		console.log(map[mapY]);
@@ -149,10 +149,10 @@ const game = new function () {
 					}
 
 
-					if (y < ny) {
-						y = level.squareSizeY() * (mapY - 1);
+					if (y < ny) {	// Движим се надолу и удряме преграда
+//						y = level.squareSizeY() * (mapY - 1);
 					} else if (y > ny) {
-						y = level.squareSizeY() * (mapY + 1);
+//						y = level.squareSizeY() * (mapY + 1);
 					}
 					break;
 				case 'D':
