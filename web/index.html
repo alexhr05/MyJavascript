@@ -7,10 +7,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Finding tresures</title>
+	 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>Finding tresures</title>
 </head>
 
-<body>
+<body onload="init()">
     <nav>
         <div class="nav-wrapper #d32f2f red darken-2">
             <a href="#!" class="brand-logo center ">Finding tresures</a>
@@ -36,7 +37,7 @@
             var instances = M.Sidenav.init(elems);
         });
     </script>
-
+	
 
 
     <div class="center-align">
@@ -45,7 +46,20 @@
 
 
         <p class="flow-text center">
-            (Тук ще се появи играта, когато е готова.)
+           <img id="characterWalkingRight" src="img/walking_30_right.png" style="display:none">
+	<img id="brick" src="img/brick_01.jpg" style="display:none">
+	<img id="diamondTransparent" src="img/Diamond_prozrachen.png" style="display:none">
+	<img id="characterWalkingLeft" src="img/walking_30_left.png" style="display:none">
+	<img id="backgroundLevel1" src="img/Background1.png" style="display:none">
+	<img id="backgroundLevel2" src="img/Background2.png" style="display:none">
+	<img id="backgroundLevel3" src="img/Background3.png" style="display:none">
+
+	<canvas id="canvas-id" width="1250" height="800" style="border:1px solid #d3d3d3;">1122</canvas>
+
+	<script src="src/game.js"></script>
+	<script src="src/level.js"></script>
+	<script src="src/event.js"></script>
+	<script>function init() { game.init(level); event.init(); } </script>
         </p>
         <footer class="page-footer #607d8b blue-grey">
             <div class="container ">
