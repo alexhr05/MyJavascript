@@ -4,25 +4,45 @@ const level = new function () {
 
         return _map.map(x => x.split(""));
     }
-
-    this.map = trasnformMap([
-        "    D                    ",
-        "                         ",
-        "                         ",
-        "                      D  ",
-        "                         ",
-        "         D               ",
-        "                   	  ",
-        "                         ",
-        "                         ",
-        "               qqqqqq    ",
-        "               qqqqqq    ",
-        "                         ",
-        "qqqqqqqqqqqqqqqqqq       ",
-        "qqqqqqqqqqqqqqqqqqqqq    ",
-        "qqqqqqqqqqqqqqqqqqqqqqqq ",
-        "qqqqqqqqqqqqqqqqqqqqqqqqq"
-    ]);
+	console.log(" currentLevel= "+this.currentLevel);
+	
+		this.map1 = trasnformMap([
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"         D               ",
+			"                   	  ",
+			"                         ",
+			"                       D ",
+			"               qqqqqq    ",
+			"     D         qqqqqq    ",
+			"                         ",
+			"qqqqqqqqqqqqqqqqqq       ",
+			"qqqqqqqqqqqqqqqqqqqqq    ",
+			"qqqqqqqqqqqqqqqqqqqqqqqq ",
+			"qqqqqqqqqqqqqqqqqqqqqqqqq"
+		]);
+		this.map2 = trasnformMap([
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                 D       ",
+			"                   	  ",
+			"                         ",
+			" D                       ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                      D  ",
+			"                         ",
+			"qqqqqqqqqqqqqqqqqqqqqqqqq",
+			"qqqqqqqqqqqqqqqqqqqqqqqqq"
+		]);
+	
     //За да не могат да се променят
     this.x = () => 15;
     this.y = () => 15;
