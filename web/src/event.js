@@ -51,12 +51,12 @@ const event = new function () {
 			game.handleMove(1, 0);
 		}
 	}
-	function handleKeys(keyCode) {
+	function handleKeys() {
 		console.log("Vliza v HandleKeys");
 
 		for (var i = 0; i < keylog.length; i++) {
 			handleKey(keylog[i]);
 		}
 	}
-
+	setInterval(handleKeys, 20);
 }();
