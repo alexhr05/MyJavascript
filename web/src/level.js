@@ -4,7 +4,6 @@ const level = new function () {
 
         return _map.map(x => x.split(""));
     }
-	console.log(" currentLevel= "+this.currentLevel);
 	
 		this.map1 = trasnformMap([
 			"                         ",
@@ -12,37 +11,90 @@ const level = new function () {
 			"                         ",
 			"                         ",
 			"                         ",
-			"         D               ",
-			"                   	  ",
 			"                         ",
-			"                       D ",
-			"               qqqqqq    ",
+			"                      D  ",
+			"                 D       ",
+			"                      qq ",
+			"               qqqqqq qq ",
 			"     D         qqqqqq    ",
 			"                         ",
 			"qqqqqqqqqqqqqqqqqq       ",
-			"qqqqqqqqqqqqqqqqqqqqq    ",
-			"qqqqqqqqqqqqqqqqqqqqqqqq ",
-			"qqqqqqqqqqqqqqqqqqqqqqqqq"
+			"qqqqqqqqqqqqqqqqqqwwwwwww",
+			"qqqqqqqqqqqqqqqqqqwwwwwww",
+			"qqqqqqqqqqqqqqqqqqwwwwwww"
 		]);
 		this.map2 = trasnformMap([
 			"                         ",
 			"                         ",
+			"  D                      ",
+			"                         ",
+			"  qq  D D                ",
+			"  qq                 D   ",
+			"     qq qq  D            ",
+			"     qq qq    D   D  qq  ",
+			"     qq    qq        qq  ",
+			"           qq  qqqqq     ",
+			"              qqq qq     ",
+			"              q        qq",
+			"                       qq",
+			"wwwwwwwwwwwwwwwwwwwwwwwww",
+			"wwwwwwwwwwwwwwwwwwwwwwwww",
+			"wwwwwwwwwwwwwwwwwwwwwwwww"
+		]);
+		this.map3 = trasnformMap([
 			"                         ",
 			"                         ",
 			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                   	  ",
 			"                 D       ",
+			" D                       ",
+			"               qqqqqq    ",
+			"               qqqqqq D  ",
+			"qqq       D              ",
+			"qqq                  qqq ",
+			"     qqqqqqqq            ",
+			"wwwwwqqqqqqqqqqqqqqqq    ",
+			"wwwwwqqqqqqqqqqqqqqqqwwww"
+		]);
+		this.map4 = trasnformMap([
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
 			"                   	  ",
 			"                         ",
-			" D                       ",
-			"                         ",
-			"                         ",
-			"                         ",
-			"                      D  ",
-			"                         ",
-			"qqqqqqqqqqqqqqqqqqqqqqqqq",
-			"qqqqqqqqqqqqqqqqqqqqqqqqq"
+			"q                        ",
+			"q                        ",
+			"q                        ",
+			"qq                       ",
+			"qq                       ",
+			"qqq                      ",
+			"qqq                      ",
+			"qqqq                     "
 		]);
-	
+		this.map5 = trasnformMap([
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                         ",
+			"                   	  ",
+			"                 D       ",
+			" D                       ",
+			"               qqqqqq    ",
+			"               qqqqqq D  ",
+			"qqq       D              ",
+			"qqq                  qqq ",
+			"     qqqqqqqq            ",
+			"wwwwwqqqqqqqqqqqqqqqq    ",
+			"wwwwwqqqqqqqqqqqqqqqqwwww"
+		]);
     //За да не могат да се променят
     this.x = () => 15;
     this.y = () => 15;
