@@ -26,7 +26,8 @@ const event = new function () {
 				game.handleMove(0, 1);
 			}
 			if (keyCode == "ArrowUp") {
-				game.handleMove(0, -3);
+				game.handleMove(0, -1);
+				game.jump();
 			}
 			if (keyCode == "ArrowLeft") {
 				game.handleMove(-1, 0);
@@ -43,4 +44,3 @@ const event = new function () {
 	}
 
 }();
-	
