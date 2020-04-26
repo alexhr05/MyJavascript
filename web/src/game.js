@@ -18,19 +18,16 @@ const game = new function () {
 	*/
 	let x;
 	let y;
-	let iAmSpeed = false;
-	let speedState = false;
 	let characterWalkingLeft = true;
 
 	const characterWalkingRightImg = document.getElementById("characterWalkingRight");
-	const brickImg = document.getElementById("brick");
+	const platformImg = document.getElementById("platform");
 	const diamondTransparentImg = document.getElementById("diamondTransparent");
 	const characterWalkingLeftImg = document.getElementById("characterWalkingLeft");
 	const backgroundLevel1Img = document.getElementById("backgroundLevel1");
 	const backgroundLevel2Img = document.getElementById("backgroundLevel2");
 	const backgroundLevel3Img = document.getElementById("backgroundLevel3");
 	const backgroundLevel4Img = document.getElementById("backgroundLevel4");
-	const backgroundLevel5Img = document.getElementById("backgroundLevel5")
 	const canvas = document.getElementById("canvas-id");
 	const ctx = canvas.getContext('2d');
 
@@ -39,7 +36,6 @@ const game = new function () {
 	const blockSizeWidth = 50;
 	const blockSizeHeight = 50;
 	const StartGravity = 0.4;
-	let gravityX = 0;
 	let gravityY = StartGravity;
 
 	const labelPositionX = canvas.clientWidth - 200;
@@ -49,7 +45,6 @@ const game = new function () {
 	let CollectDiamonds = 0;
 	const gravitySpeed = 0.0005;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
-	const blockLeftFromCharacter = numberBlocksWidth / 3;
 	let leftBorder = 0;
 
 	var map;
@@ -84,11 +79,6 @@ const game = new function () {
 			console.log(" level 4 ");
 			map = level.map4;
 		}
-		if (currentLevel == 5) {
-			ctx.drawImage(backgroundLevel5Img, 0, 0, canvasWidth, canvasHeight);
-			console.log(" level 5 ");
-			map = level.map5;
-		}
 
 		const oy = y;
 
@@ -106,8 +96,8 @@ const game = new function () {
 		for (let c = 0; c < numberBlocksWidth; c++) {
 			for (let r = 0; r < level.map1.length; r++) {
 				switch (map[r][leftBorder + c]) {
-					case '*':
-						ctx.drawImage(brick, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+					case 'q':
+						ctx.drawImage(platformImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
 					case 'D':
 						ctx.drawImage(diamondTransparentImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
@@ -173,9 +163,6 @@ const game = new function () {
 		if (currentLevel == 4) {
 			map = level.map4;
 		}
-		if (currentLevel == 5) {
-			map = level.map5;
-		}
 		//		console.log(x + " x> " + mapX);
 		//		console.log(y + " y> " + mapY);
 		//		console.log(map);
@@ -184,7 +171,7 @@ const game = new function () {
 		//		console.log( " mapX= " +mapX);
 
 		if (mapX >= 24) {
-			if (currentLevel < 5) {
+			if (currentLevel < 4) {
 				currentLevel++;
 
 				// Нови позиции
@@ -200,9 +187,11 @@ const game = new function () {
 		} else if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length) {
 
 			switch (map[mapY][mapX]) {
-				case '*':
 				case 'q':
 					gravityY = StartGravity;
+					function jump (){
+						gravity += -10;
+					}
 					if (x < nx) {
 						x = level.squareSizeX() * (mapX - 1);
 					} else if (x > nx) {
@@ -233,6 +222,13 @@ const game = new function () {
 		}
 
 	};
+	this.jump = function () {
+		
+			gravityY += -0.4;
+		
+
+	};
+
 
 }();
 
