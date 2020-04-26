@@ -189,9 +189,6 @@ const game = new function () {
 			switch (map[mapY][mapX]) {
 				case 'q':
 					gravityY = StartGravity;
-					function jump (){
-						gravity += -10;
-					}
 					if (x < nx) {
 						x = level.squareSizeX() * (mapX - 1);
 					} else if (x > nx) {
@@ -225,8 +222,7 @@ const game = new function () {
 	this.jump = function () {
 		
 			gravityY += -0.4;
-		
-
+	
 	};
 
 
