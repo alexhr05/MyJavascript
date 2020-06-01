@@ -38,35 +38,39 @@ const game = new function () {
 
 	let currentLevel = 1;
 
-	var backgroundFiles = [];
-	var levelFiles = [];
+	let backgroundFiles = [];
+	let levelFiles = [];
 
-	function levels() {
+	let numOfLevel = 1;
+	let levels = function(numOfLevel = 1) {
 
-		var img = new Image();
+		if (currentLevel++){
+			numOfLevel++;
+		}
+		
+		let img = new Image();
 		img.onload = function () {
 			backgroundFiles.push(img);
 		}
-		img.src = 'img/Background' + currentLevel + '.png';
+		img.src = 'img/Background' + numOfLevel + '.png';
 		document.body.appendChild(img);
 
 
-		var maps = document.createElement('maps');
+		let maps = document.createElement('maps');
 		maps.onload = function () {
 			levelFiles.push(maps);
 		}
-		maps.src = 'level' + currentLevel + '.js';
+		maps.src = 'level' + numOfLevel + '.js';
 		document.body.appendChild(maps);
 
 
 	}
 	function drawFunction() {
-
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 		window.onload = function () {
-			ctx.drawImage(backgroundFiles[currentLevel - 1], 0, 0, canvasWidth, canvasHeight);
+			ctx.drawImage(backgroundFiles[numOfLevel], 0, 0, canvasWidth, canvasHeight);
 		}
-		map = levelFiles[currentLevel - 1];
+		map = levelFiles[numOfLevel];
 
 		const oy = y;
 
@@ -167,7 +171,7 @@ const game = new function () {
 				//символ за преминаване на следващо ниво
 				case 'c':
 					currentLevel++;
-					levels();
+					levels(numOfLevel);
 					break;
 				default:
 					x = nx;
