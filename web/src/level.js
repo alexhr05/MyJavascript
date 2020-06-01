@@ -1,10 +1,16 @@
-
 const level = new function () {
-    function trasnformMap(_map) {
 
-        return _map.map(x => x.split(""));
-    }
+	this.x = () => 15;
+    this.y = () => 15;
+    this.vX = () => 3;
+    this.vY = () => 3;
+    this.squareSizeX = () => 10;
+    this.squareSizeY = () => 10;
+
+	/*	function trasnformMap(_map) {
 	
+			return _map.map(x => x.split(""));
+		}
 		this.map1 = trasnformMap([
 			"                         ",
 			"                         ",
@@ -23,6 +29,7 @@ const level = new function () {
 			"qqqqqqqqqqqqqqqqqqwwwwwww",
 			"qqqqqqqqqqqqqqqqqqwwwwwww"
 		]);
+		
 		this.map2 = trasnformMap([
 			"                         ",
 			"                         ",
@@ -31,7 +38,7 @@ const level = new function () {
 			"  qq  D D                ",
 			"  qq                 D   ",
 			"     qq qq  D            ",
-			"     qq qq    D   D  qq  ",
+			"     qq qq    D D  D qq  ",
 			"     qq    qq        qq  ",
 			"           qq  qqqqq     ",
 			"              qqq qq     ",
@@ -41,6 +48,7 @@ const level = new function () {
 			"wwwwwwwwwwwwwwwwwwwwwwwww",
 			"wwwwwwwwwwwwwwwwwwwwwwwww"
 		]);
+		
 		this.map3 = trasnformMap([
 			"                         ",
 			"                         ",
@@ -59,48 +67,26 @@ const level = new function () {
 			"wwwwwqqqqqqqqqqqqqqqq    ",
 			"wwwwwqqqqqqqqqqqqqqqqwwww"
 		]);
+
 		this.map4 = trasnformMap([
 			"                         ",
 			"                         ",
 			"                         ",
-			"                         ",
-			"                         ",
-			"                         ",
-			"                   	  ",
-			"                         ",
-			"q                        ",
-			"q                        ",
-			"q                        ",
-			"qq                       ",
-			"qq                       ",
-			"qqq                      ",
-			"qqq                      ",
-			"qqqq                     "
-		]);
-		this.map5 = trasnformMap([
-			"                         ",
-			"                         ",
-			"                         ",
-			"                         ",
-			"                         ",
-			"                         ",
-			"                   	  ",
-			"                 D       ",
 			" D                       ",
-			"               qqqqqq    ",
-			"               qqqqqq D  ",
-			"qqq       D              ",
-			"qqq                  qqq ",
-			"     qqqqqqqq            ",
-			"wwwwwqqqqqqqqqqqqqqqq    ",
-			"wwwwwqqqqqqqqqqqqqqqqwwww"
+			"    D                    ",
+			"qq                       ",
+			"    q  D            	 D",
+			"  q       D        D     ",
+			"q     qq    D    D    qq ",
+			"q         q  D D   q  qq ",
+			"qq          q    q       ",
+			"qq           q q         ",
+			"qq                       ",
+			"qqwwwwwwwwwwwwwwwwwwwwwww",
+			"qqwwwwwwwwwwwwwwwwwwwwwww",
+			"qqwwwwwwwwwwwwwwwwwwwwwww"
 		]);
-    //За да не могат да се променят
-    this.x = () => 15;
-    this.y = () => 15;
-    this.vX = () => 3;
-    this.vY = () => 3;
-    this.squareSizeX = () => 10;
-    this.squareSizeY = () => 10;
-
-}();
+		
+	*/
+	
+};
