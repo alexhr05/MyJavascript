@@ -1,27 +1,23 @@
-function level1 (){
-    function transformMap(_map) {
+const level1 = new function (){
 
-        return _map.map(x => x.split(""));
-    }
-
-    this.map = transformMap([
-        "                        c",
-        "                        c",
-        "                        c",
-        "                        c",
-        "                        c",
-        "                        c",
-        "                      D c",
+    this.map = () => [
+        "                       cc",
+        "                       cc",
+        "                       cc",
+        "                       cc",
+        "                       cc",
+        "                       cc",
+        "                      Dcc",
         "                 D     cc",
         "                      qqc",
-        "               qqqqqq qq ",
-        "     D         qqqqqq    ",
-        "                         ",
-        "qqqqqqqqqqqqqqqqqq       ",
+        "               qqqqqq qqc",
+        "     D         qqqqqq  cc",
+        "                       cc",
+        "qqqqqqqqqqqqqqqqqq     cc",
         "qqqqqqqqqqqqqqqqqqwwwwwww",
         "qqqqqqqqqqqqqqqqqqwwwwwww",
         "qqqqqqqqqqqqqqqqqqwwwwwww"
-    ]);
+    ];
 
     this.x = () => 15;
     this.y = () => 15;
@@ -30,4 +26,4 @@ function level1 (){
     this.squareSizeX = () => 10;
     this.squareSizeY = () => 10;
     
-};
+}();

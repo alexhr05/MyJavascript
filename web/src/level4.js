@@ -1,26 +1,23 @@
-function level4(){
-    function transformMap(_map) {
-
-        return _map.map(x => x.split(""));
-    }
-    this.map = transformMap([
-        "                        c",
-        "                        c",
-        "                        c",
-        " D                      c",
-        "    D                   c",
-        "qq                      c",
+const level4 = new function (){
+    
+    this.map = () => [
+        "                       cc",
+        "                       cc",
+        "                       cc",
+        " D                     cc",
+        "    D                  cc",
+        "qq                     cc",
         "    q  D            	 D",
-        "  q       D        D    c",
+        "  q       D        D   cc",
         "q     qq    D    D    qqc",
-        "q         q  D D   q  qq ",
-        "qq          q    q       ",
-        "qq           q q         ",
-        "qq                       ",
+        "q         q  D D   q  qqc",
+        "qq          q    q     cc",
+        "qq           q q       cc",
+        "qq                     cc",
         "qqwwwwwwwwwwwwwwwwwwwwwww",
         "qqwwwwwwwwwwwwwwwwwwwwwww",
         "qqwwwwwwwwwwwwwwwwwwwwwww"
-    ]);
+    ];
 
     this.x = () => 15;
     this.y = () => 15;
@@ -29,4 +26,4 @@ function level4(){
     this.squareSizeX = () => 10;
     this.squareSizeY = () => 10;
     
-};
+}();
