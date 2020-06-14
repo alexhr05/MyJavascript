@@ -35,11 +35,11 @@ const game = new function () {
 	let CollectDiamonds = 0;
 	const gravitySpeed = 0.0005;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
-
-	const jumpSizeStep = -2;
-	let jumpCurrentStep = 1;
-	const jumpMaxStep = 5;
-
+	/*
+		const jumpSizeStep = -2;
+		let jumpCurrentStep = 1;
+		const jumpMaxStep = 5;
+	*/
 	let leftBorder = 0;
 
 	let map;
@@ -49,7 +49,7 @@ const game = new function () {
 	let backgroundFiles = [];
 	let levelObjects = [];
 	let stateLevelLoading = [];
-	const maxLevel = 4;
+	const maxLevel = 5;
 	const minDataLevelLoaded = 2;
 
 	let hasLoaded = false;
@@ -111,8 +111,6 @@ const game = new function () {
 
 		ctx.drawImage(backgroundFiles[currentLevel], 0, 0, canvasWidth, canvasHeight);
 
-
-
 		const oy = y;
 
 		gravityY += gravitySpeed;
@@ -166,6 +164,7 @@ const game = new function () {
 		}
 		setLevelData(currentLevel);
 	}
+
 	this.handleMove = function (scaleX /* Колко бързо се движи по x надясно и наляво*/, scaleY/* Колко бързо се движи по y надясно и наляво*/) {
 
 		//Нова позиция
@@ -192,7 +191,6 @@ const game = new function () {
 			mapX = 0;
 			nx = 0;
 		}
-
 
 		switch (map[mapY][mapX]) {
 			case symbols.platform:
@@ -226,10 +224,8 @@ const game = new function () {
 		}
 		// Проверка дали ВЗИМА диамант
 
-
-
-
 	};
+
 	this.Jump = function () {
 		/*if (jumpCurrentStep <= jumpMaxStep) {
 			gravityY += jumpSizeStep;
@@ -240,7 +236,4 @@ const game = new function () {
 	}
 
 
-
-
 }();
-
