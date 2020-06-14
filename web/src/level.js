@@ -89,4 +89,4 @@ const level = new function () {
 		
 	*/
 	
-};
+}();
