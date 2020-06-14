@@ -9,9 +9,17 @@ const game = new function () {
 	const characterWalkingRightImg = document.getElementById("characterWalkingRight");
 	const diamondTransparentImg = document.getElementById("diamondTransparent");
 	const characterWalkingLeftImg = document.getElementById("characterWalkingLeft");
+	const platformImg = document.getElementById("platformImg");
 
 	const canvas = document.getElementById("canvas-id");
 	const ctx = canvas.getContext('2d');
+
+	const symbols = Object.freeze({
+		diamond: 'D',
+		water: 'w',
+		platform: 'q',
+		win: 'c'
+	});
 
 	const canvasWidth = canvas.clientWidth;
 	const canvasHeight = canvas.clientHeight;
@@ -39,38 +47,71 @@ const game = new function () {
 	let currentLevel = 1;
 
 	let backgroundFiles = [];
-	let levelFiles = [];
+	let levelObjects = [];
+	let stateLevelLoading = [];
+	const maxLevel = 4;
+	const minDataLevelLoaded = 2;
 
-	let numOfLevel = 1;
-	let levels = function(numOfLevel = 1) {
+	let hasLoaded = false;
 
-		if (currentLevel++){
-			numOfLevel++;
+	function trasnformMap(_map) {
+
+		return _map.map(x => x.split(""));
+	}
+
+	function loadLevel(numberOfLevel) {
+		if (numberOfLevel > maxLevel) {
+			return;
 		}
-		
 		let img = new Image();
 		img.onload = function () {
-			backgroundFiles.push(img);
+			backgroundFiles[numberOfLevel] = img;
+			stateLevelLoading[numberOfLevel] = (stateLevelLoading[numberOfLevel] || 0) + 1;
 		}
-		img.src = 'img/Background' + numOfLevel + '.png';
-		document.body.appendChild(img);
+		img.src = 'img/Background' + numberOfLevel + '.png';
+		document.getElementById('imageHolder').appendChild(img);
 
-
-		let maps = document.createElement('maps');
+		let maps = document.createElement('script');
 		maps.onload = function () {
-			levelFiles.push(maps);
+			levelObjects[numberOfLevel] = eval("level" + numberOfLevel);
+			stateLevelLoading[numberOfLevel] = (stateLevelLoading[numberOfLevel] || 0) + 1;
 		}
-		maps.src = 'level' + numOfLevel + '.js';
+		maps.src = 'src/level' + numberOfLevel + '.js';
 		document.body.appendChild(maps);
+	}
 
+	function setLevelData(numberOfLevel) {
+		if (numberOfLevel > maxLevel) {
+			return;
+		}
+		//while (minDataLevelLoaded > (stateLevelLoading[numberOfLevel] || 0));
+		function f() {
+			if (minDataLevelLoaded > (stateLevelLoading[numberOfLevel] || 0)) {
+				setTimeout(f, 200);
+			} else {
+				level = levelObjects[numberOfLevel];
+				x = level.x();
+				y = level.y();
+				map = trasnformMap(level.map());
+				hasLoaded = true;
+				loadLevel(numberOfLevel + 1);
+
+			}
+
+		}
+		f();
 
 	}
 	function drawFunction() {
-		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-		window.onload = function () {
-			ctx.drawImage(backgroundFiles[numOfLevel], 0, 0, canvasWidth, canvasHeight);
+		if (hasLoaded == false) {
+			setTimeout(drawFunction, 300);
+			return;
 		}
-		map = levelFiles[numOfLevel];
+		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+		ctx.drawImage(backgroundFiles[currentLevel], 0, 0, canvasWidth, canvasHeight);
+
+
 
 		const oy = y;
 
@@ -84,10 +125,10 @@ const game = new function () {
 		for (let c = 0; c < numberBlocksWidth; c++) {
 			for (let r = 0; r < map.length; r++) {
 				switch (map[r][leftBorder + c]) {
-					case '*':
-						ctx.drawImage(brick, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+					case symbols.platform:
+						ctx.drawImage(platformImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
-					case 'D':
+					case symbols.diamond:
 						ctx.drawImage(diamondTransparentImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
 				}
@@ -112,17 +153,19 @@ const game = new function () {
 
 	};
 
-	this.init = function (_level) {
-		level = _level;
-		//Записва й се стойноста
-		console.log(level);
-		x = level.x();
-		y = level.y();
-
+	this.init = function () {
+		loadLevel(currentLevel);
+		setLevelData(currentLevel);
 		requestAnimationFrame(drawFunction);
-
 	};
 
+	function moveToNextLevel() {
+		currentLevel++;
+		if (currentLevel > maxLevel) {
+			window.location.href = "end_game.html";
+		}
+		setLevelData(currentLevel);
+	}
 	this.handleMove = function (scaleX /* Колко бързо се движи по x надясно и наляво*/, scaleY/* Колко бързо се движи по y надясно и наляво*/) {
 
 		//Нова позиция
@@ -133,63 +176,69 @@ const game = new function () {
 
 		if (scaleX < 0) characterWalkingLeft = true;
 		if (scaleX > 0) characterWalkingLeft = false;
-
-		if (mapX >= 24) {
-			if (currentLevel < 5) {
-				// Нови позиции
-				x = level.x();
-				y = level.y();
-
-				requestAnimationFrame(drawFunction);
-			} else {
-				// друга страница с надпис
-				window.location.href = "end_game.html";
-			}
-		} else if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length) {
-
-			switch (map[mapY][mapX]) {
-				case 'q':
-					jumpCurrentStep = 1;
-					gravityY = StartGravity;
-					if (x < nx) {
-						x = level.squareSizeX() * (mapX - 1);
-					} else if (x > nx) {
-						x = level.squareSizeX() * (mapX + 1);
-					}
-
-					if (y < ny) {
-					} else if (y > ny) {
-					}
-					break;
-				case 'D':
-					map[mapY][mapX] = ' ';
-					CollectDiamonds++;
-					break;
-				case 'w':
-					window.location.href = "fail.html";
-					break;
-				//символ за преминаване на следващо ниво
-				case 'c':
-					currentLevel++;
-					levels(numOfLevel);
-					break;
-				default:
-					x = nx;
-					y = ny;
-					break;
-			}
-			// Проверка дали ВЗИМА диамант
-
-
+		if (mapY >= map.length) {
+			mapY = map.length - 1;
+			ny = level.squareSizeY * mapY;
 		}
+		if (mapY < 0) {
+			mapY = 0;
+			ny = 0;
+		}
+		if (mapX >= map[mapY].length) {
+			mapX = map.length - 1;
+			nx = level.squareSizeX() * mapX - 4;
+		}
+		if (mapX < 0) {
+			mapX = 0;
+			nx = 0;
+		}
+
+
+		switch (map[mapY][mapX]) {
+			case symbols.platform:
+				//jumpCurrentStep = 1;
+				gravityY = StartGravity;
+				if (x < nx) {
+					x = level.squareSizeX() * (mapX - 1);
+				} else if (x > nx) {
+					x = level.squareSizeX() * (mapX + 1);
+				}
+
+				if (y < ny) {
+				} else if (y > ny) {
+				}
+				break;
+			case symbols.diamond:
+				map[mapY][mapX] = ' ';
+				CollectDiamonds++;
+				break;
+			case symbols.water:
+				window.location.href = "fail.html";
+				break;
+			//символ за преминаване на следващо ниво
+			case symbols.win:
+				moveToNextLevel();
+				break;
+			default:
+				x = nx;
+				y = ny;
+				break;
+		}
+		// Проверка дали ВЗИМА диамант
+
+
+
 
 	};
 	this.Jump = function () {
-		if (jumpCurrentStep <= jumpMaxStep) {
+		/*if (jumpCurrentStep <= jumpMaxStep) {
 			gravityY += jumpSizeStep;
 			jumpCurrentStep++;
 		}
+		*/
+		gravityY -= 50;
 	}
+
 
 
 
