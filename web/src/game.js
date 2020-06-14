@@ -10,7 +10,9 @@ const game = new function () {
 	const diamondTransparentImg = document.getElementById("diamondTransparent");
 	const characterWalkingLeftImg = document.getElementById("characterWalkingLeft");
 	const platformImg = document.getElementById("platformImg");
-
+	const grassImg = document.getElementById("grassImg");
+	const groundImg = document.getElementById("groundImg");
+	const cloudImg = document. getElementById("cloudImg");
 	const canvas = document.getElementById("canvas-id");
 	const ctx = canvas.getContext('2d');
 
@@ -18,7 +20,10 @@ const game = new function () {
 		diamond: 'D',
 		water: 'w',
 		platform: 'q',
-		win: 'c'
+		grass: 'g',
+		win: 'c',
+		newWorldPlatform: '*', 
+		cloud: 'o'
 	});
 
 	const canvasWidth = canvas.clientWidth;
@@ -49,7 +54,7 @@ const game = new function () {
 	let backgroundFiles = [];
 	let levelObjects = [];
 	let stateLevelLoading = [];
-	const maxLevel = 5;
+	const maxLevel = 6;
 	const minDataLevelLoaded = 2;
 
 	let hasLoaded = false;
@@ -126,9 +131,18 @@ const game = new function () {
 					case symbols.platform:
 						ctx.drawImage(platformImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
+					case symbols.grass:
+						ctx.drawImage(grassImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+						break;
+					case symbols.newWorldPlatform:
+						ctx.drawImage(groundImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+						break;
 					case symbols.diamond:
 						ctx.drawImage(diamondTransparentImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
+					case symbols.cloud:
+						ctx.drawImage(cloudImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+					
 				}
 			}
 		}
@@ -206,6 +220,30 @@ const game = new function () {
 				} else if (y > ny) {
 				}
 				break;
+			case symbols.grass:
+				gravityY = StartGravity;
+				if (x < nx) {
+					x = level.squareSizeX() * (mapX - 1);
+				} else if (x > nx) {
+					x = level.squareSizeX() * (mapX + 1);
+				}
+
+				if (y < ny) {
+				} else if (y > ny) {
+				}
+				break;
+			case symbols.newWorldPlatform:
+				gravityY = StartGravity;
+				if (x < nx) {
+					x = level.squareSizeX() * (mapX - 1);
+				} else if (x > nx) {
+					x = level.squareSizeX() * (mapX + 1);
+				}
+
+				if (y < ny) {
+				} else if (y > ny) {
+				}
+				break;				
 			case symbols.diamond:
 				map[mapY][mapX] = ' ';
 				CollectDiamonds++;
