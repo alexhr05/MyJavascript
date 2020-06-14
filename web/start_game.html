@@ -13,22 +13,18 @@
 <body onload="init()">
 
 	<img id="characterWalkingRight" src="img/walking_30_right.png" style="display:none">
-	<img id="brick" src="img/brick_01.jpg" style="display:none">
+	<img id="platformImg" src="img/platform.png" style="display:none">
 	<img id="diamondTransparent" src="img/Diamond_prozrachen.png" style="display:none">
 	<img id="characterWalkingLeft" src="img/walking_30_left.png" style="display:none">
-	<img id="backgroundLevel1" src="img/Background1.png" style="display:none">
-	<img id="backgroundLevel2" src="img/Background2.png" style="display:none">
-	<img id="backgroundLevel3" src="img/Background3.png" style="display:none">
 
-	<canvas id="canvas-id" width="1250" height="800" style="border:1px solid #d3d3d3;">1122</canvas>
+	<canvas id="canvas-id" width="1200" height="800" style="border:1px solid #d3d3d3;">1122</canvas>
 
 	<script src="src/game.js"></script>
-	<script src="src/level.js"></script>
 	<script src="src/event.js"></script>
-	<script>function init() { game.init(level); event.init(); } </script>
+	<script>function init() { game.init(); event.init(); } </script>
 
-
-
+	<div id="imageHolder" style="display:none">
+	</div>
 
 </body>
 
