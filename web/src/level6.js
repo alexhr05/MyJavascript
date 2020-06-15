@@ -8,15 +8,15 @@ const level6 = new function (){
         "        o              cc",
         "                       cc",
         "                   	cc",
-        "              D     D *cc",
-        "                       cc",
-        "           D  *     *  cc",
-        "                 *     cc",
-        "           *           cc",
+        "                   D   cc",
+        "              D        cc",
+        "           D     *  *  cc",
+        "              *       *cc",
+        "**         *           cc",
         "       D               cc",
-        "ggggggggggggggggggggggggg",
-        "ggggggggggggggggggggggggg",
-        "ggggggggggggggggggggggggg"
+        "wwggggggggggggggggggggggg",
+        "wwggggggggggggggggggggggg",
+        "wwggggggggggggggggggggggg"
     ];
 
     this.x = () => 15;
