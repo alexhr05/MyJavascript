@@ -8,7 +8,7 @@ const level4 = new function (){
         "    D                  cc",
         "qq                     cc",
         "    q  D            	 D",
-        "  q       D        D   cc",
+        "  q       D        D    c",
         "q     qq    D    D    qqc",
         "q         q  D D   q  qqc",
         "qq          q    q     cc",

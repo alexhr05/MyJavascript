@@ -1,22 +1,22 @@
-const level1 = new function (){
-
+const level8 = new function (){
+    
     this.map = () => [
         "                       cc",
         "                       cc",
         "                       cc",
+        "              D        cc",
+        "         D        D    cc",
+        "     D        *      D cc",
+        "         *        *  	cc",
+        "  D  *               * cc",
+        "                       cc",
+        "  *                    cc",
         "                       cc",
         "                       cc",
         "                       cc",
-        "                      Dcc",
-        "                 D     cc",
-        "                      qqc",
-        "               qqqqqq  cc",
-        "     D                 cc",
         "                       cc",
-        "qqqqqqqqqqqqqqqqqq     cc",
-        "qqqqqqqqqqqqqqqqqqwwwwwww",
-        "qqqqqqqqqqqqqqqqqqwwwwwww",
-        "qqqqqqqqqqqqqqqqqqwwwwwww"
+        "wwwwwwwwwwwwwwwwwwwwwwwww",
+        "wwwwwwwwwwwwwwwwwwwwwwwww"
     ];
 
     this.x = () => 15;

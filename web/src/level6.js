@@ -8,7 +8,7 @@ const level6 = new function (){
         "        o              cc",
         "                       cc",
         "                   	cc",
-        "              D     D  cc",
+        "              D     D *cc",
         "                       cc",
         "           D  *     *  cc",
         "                 *     cc",

@@ -11,9 +11,9 @@ const level3 = new function (){
         "                 D     cc",
         " D                     cc",
         "               qqqqqq  cc",
-        "               qqqqqq Dcc",
+        "                      Dcc",
         "qqq       D            cc",
-        "qqq                  qqqc",
+        "                     qqqc",
         "     qqqqqqqq          cc",
         "wwwwwqqqqqqqqqqqqqqqq  cc",
         "wwwwwqqqqqqqqqqqqqqqqwwww"
