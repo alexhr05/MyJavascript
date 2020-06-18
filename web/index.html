@@ -1,0 +1,73 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тreasure Hunters</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.parallax');
+            var instances = M.Parallax.init(elems);
+        });
+    </script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper #d32f2f red darken-2">
+            <a href="#!" class="brand-logo center ">Тreasure Hunters</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="left hide-on-med-and-down">
+                <li class="active"><a href="index.html">Начало</a></li>
+                <li><a href="gamerules.html">Правила</a></li>
+                <li><a href="aboutus.html">За нас</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul id="mobile-demo" class="sidenav">
+        <li><a href="index.html">Начало</a></li>
+        <li><a href="gamerules.html">Правила</a></li>
+        <li><a href="aboutus.html">За нас</a></li>
+        <li class="no-padding">
+        </li>
+    </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems);
+        });
+    </script>
+
+
+
+    <div class>
+        <img class="responsive-img center-align" src="img/Logo_new.png">
+    </div>
+
+
+    <div class="section white">
+        <div class="row container center-align">
+            <a class="waves-effect waves-light btn-large red darken-2 pulse center" href="start_game.html">Start
+                Game</a>
+        </div>
+    </div>
+        
+        <footer class="page-footer #607d8b blue-grey">
+            <div class="container ">
+                <footer class="footer-copyright #607d8b blue-grey">
+                    <div class="container center-align">
+                        © 2020 Alex Hristov & Betina Yordanova
+                    </div>
+                </footer>
+            </div>
+        </footer>
+
+    </body>
+
+
+</html>
