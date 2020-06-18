@@ -10,11 +10,11 @@ const level9 = new function (){
         "                     	cc",
         "                       cc",
         " D                     cc",
-        "     D               D cc",
-        " *       D      D      cc",
-        "     *      D        * cc",
-        "         *      *      cc",
-        "            *          cc",
+        "    D           D    D cc",
+        " *     D     D     D   cc",
+        "    *     D     *    * cc",
+        "       *     *     *   cc",
+        "          *            cc",
         "wwwwwwwwwwwwwwwwwwwwwwwww",
         "wwwwwwwwwwwwwwwwwwwwwwwww"
     ];
