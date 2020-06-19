@@ -61,9 +61,7 @@ const game = new function () {
 	let hasLoaded = false;
 
 	let canJump = false;
-	let jumpVelocity = 0;
 	let isJumping = false;
-	let maxJump = 2;
 
 	function trasnformMap(_map) {
 
@@ -286,13 +284,11 @@ const game = new function () {
 		//Ако в момента скачаме, променяме скоростта на гравитацията, за да се получи изтласкване.
 		//Ако скоростта на скока е по-малка или равна на нула, значи в този момент не скачаме -> можем да скочим.
 		if (canJump == true) {
-			jumpVelocity = maxJump;
 			isJumping = true;
 		}
 		if (isJumping) {
-			gravityY -= jumpVelocity;
-			jumpVelocity += 0.1;
-			if (jumpVelocity <= 0) {
+			gravityY = -0.01 * StartGravity;
+			if (gravityY <= 0) {
 				isJumping = false;
 				canJump = true;
 			}
