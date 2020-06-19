@@ -10,9 +10,9 @@ const game = new function () {
 	const diamondTransparentImg = document.getElementById("diamondTransparent");
 	const characterWalkingLeftImg = document.getElementById("characterWalkingLeft");
 	const platformImg = document.getElementById("platformImg");
+	const waterImg = document.getElementById("waterImg");
 	const grassImg = document.getElementById("grassImg");
 	const groundImg = document.getElementById("groundImg");
-	const cloudImg = document. getElementById("cloudImg");
 	const canvas = document.getElementById("canvas-id");
 	const ctx = canvas.getContext('2d');
 
@@ -22,7 +22,7 @@ const game = new function () {
 		platform: 'q',
 		grass: 'g',
 		win: 'c',
-		newWorldPlatform: '*', 
+		newWorldPlatform: '*',
 		cloud: 'o'
 	});
 
@@ -32,6 +32,7 @@ const game = new function () {
 	const blockSizeHeight = 50;
 	const StartGravity = 0.4;
 	let gravityY = StartGravity;
+
 
 	const labelPositionX = canvas.clientWidth - 200;
 	const labelPositionY = 10;
@@ -54,10 +55,15 @@ const game = new function () {
 	let backgroundFiles = [];
 	let levelObjects = [];
 	let stateLevelLoading = [];
-	const maxLevel = 6;
+	const maxLevel = 10;
 	const minDataLevelLoaded = 2;
 
 	let hasLoaded = false;
+
+	let canJump = false;
+	let jumpVelocity = 0;
+	let isJumping = false;
+	let maxJump = 2;
 
 	function trasnformMap(_map) {
 
@@ -89,7 +95,7 @@ const game = new function () {
 		if (numberOfLevel > maxLevel) {
 			return;
 		}
-		//while (minDataLevelLoaded > (stateLevelLoading[numberOfLevel] || 0));
+
 		function f() {
 			if (minDataLevelLoaded > (stateLevelLoading[numberOfLevel] || 0)) {
 				setTimeout(f, 200);
@@ -131,6 +137,9 @@ const game = new function () {
 					case symbols.platform:
 						ctx.drawImage(platformImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
+					case symbols.water:
+						ctx.drawImage(waterImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+						break;
 					case symbols.grass:
 						ctx.drawImage(grassImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
@@ -140,9 +149,6 @@ const game = new function () {
 					case symbols.diamond:
 						ctx.drawImage(diamondTransparentImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
-					case symbols.cloud:
-						ctx.drawImage(cloudImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-					
 				}
 			}
 		}
@@ -219,6 +225,7 @@ const game = new function () {
 				if (y < ny) {
 				} else if (y > ny) {
 				}
+				canJump = true;
 				break;
 			case symbols.grass:
 				gravityY = StartGravity;
@@ -231,6 +238,7 @@ const game = new function () {
 				if (y < ny) {
 				} else if (y > ny) {
 				}
+				canJump = true;
 				break;
 			case symbols.newWorldPlatform:
 				gravityY = StartGravity;
@@ -243,7 +251,8 @@ const game = new function () {
 				if (y < ny) {
 				} else if (y > ny) {
 				}
-				break;				
+				canJump = true;
+				break;
 			case symbols.diamond:
 				map[mapY][mapX] = ' ';
 				CollectDiamonds++;
@@ -264,13 +273,30 @@ const game = new function () {
 
 	};
 
+
 	this.Jump = function () {
-		/*if (jumpCurrentStep <= jumpMaxStep) {
+		/*
+		if (jumpCurrentStep <= jumpMaxStep) {
 			gravityY += jumpSizeStep;
 			jumpCurrentStep++;
 		}
 		*/
-		gravityY -= 50;
+		//Можем да скочим, ако се намираме на платформа.
+		//Ако можем да скочим, текущата скорост на скока присвоява максималната.
+		//Ако в момента скачаме, променяме скоростта на гравитацията, за да се получи изтласкване.
+		//Ако скоростта на скока е по-малка или равна на нула, значи в този момент не скачаме -> можем да скочим.
+		if (canJump == true) {
+			jumpVelocity = maxJump;
+			isJumping = true;
+		}
+		if (isJumping) {
+			gravityY -= jumpVelocity;
+			jumpVelocity += 0.1;
+			if (jumpVelocity <= 0) {
+				isJumping = false;
+				canJump = true;
+			}
+		} 
 	}
 
 
