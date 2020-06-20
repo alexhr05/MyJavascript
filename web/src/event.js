@@ -2,6 +2,7 @@ const event = new function () {
 
 	let keylog = [];
 
+
 	this.init = function () {
 		document.addEventListener('keydown', KeyDown);
 		document.addEventListener('keyup',   KeyUp);
@@ -26,7 +27,7 @@ const event = new function () {
 				game.handleMove(0, 1);
 			}
 			if (keyCode == "ArrowUp") {
-				game.handleMove(0, -1);
+				game.handleMove(0, 0);
 				game.Jump();
 			}
 			if (keyCode == "ArrowLeft") {
