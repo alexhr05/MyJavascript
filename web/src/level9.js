@@ -21,7 +21,7 @@ const level9 = new function (){
 
     this.x = () => 15;
     this.y = () => 15;
-    this.vX = () => 3;
+    this.vX = () => 2;
     this.vY = () => 3;
     this.squareSizeX = () => 10;
     this.squareSizeY = () => 10;
