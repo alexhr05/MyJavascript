@@ -1,35 +1,30 @@
 const game = new function () {
 	let level;
 
-	var currentLevel = 1;		// Текущо ниво
-	/*	const moveX = 1;
-		const moveY = 1;
-		const stopX = 0;
-		const stopY = 0;
-		let x
-		const START = {
-			x: 3,
-			y: 3,
-		};
-		this.myX = START.x;
-		this.myY = START.y;
-		this.MYmoveX = stopX;
-		this.MYmoveY = stopY;
-	*/
+	// Текущо ниво
 	let x;
 	let y;
-	let characterWalkingLeft = true;
 
+	let characterWalkingLeft = true;
 	const characterWalkingRightImg = document.getElementById("characterWalkingRight");
-	const platformImg = document.getElementById("platform");
 	const diamondTransparentImg = document.getElementById("diamondTransparent");
 	const characterWalkingLeftImg = document.getElementById("characterWalkingLeft");
-	const backgroundLevel1Img = document.getElementById("backgroundLevel1");
-	const backgroundLevel2Img = document.getElementById("backgroundLevel2");
-	const backgroundLevel3Img = document.getElementById("backgroundLevel3");
-	const backgroundLevel4Img = document.getElementById("backgroundLevel4");
+	const platformImg = document.getElementById("platformImg");
+	const waterImg = document.getElementById("waterImg");
+	const grassImg = document.getElementById("grassImg");
+	const groundImg = document.getElementById("groundImg");
 	const canvas = document.getElementById("canvas-id");
 	const ctx = canvas.getContext('2d');
+
+	const symbols = Object.freeze({
+		diamond: 'D',
+		water: 'w',
+		platform: 'q',
+		grass: 'g',
+		win: 'c',
+		newWorldPlatform: '*',
+		cloud: 'o'
+	});
 
 	const canvasWidth = canvas.clientWidth;
 	const canvasHeight = canvas.clientHeight;
@@ -38,6 +33,7 @@ const game = new function () {
 	const StartGravity = 0.4;
 	let gravityY = StartGravity;
 
+
 	const labelPositionX = canvas.clientWidth - 200;
 	const labelPositionY = 10;
 	const labelRowY = 20;
@@ -45,40 +41,84 @@ const game = new function () {
 	let CollectDiamonds = 0;
 	const gravitySpeed = 0.0005;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
+	/*
+		const jumpSizeStep = -2;
+		let jumpCurrentStep = 1;
+		const jumpMaxStep = 5;
+	*/
 	let leftBorder = 0;
 
-	var map;
+	let map;
 
+	let currentLevel = 1;
+
+	let backgroundFiles = [];
+	let levelObjects = [];
+	let stateLevelLoading = [];
+	const maxLevel = 10;
+	const minDataLevelLoaded = 2;
+
+	let hasLoaded = false;
+
+	let canJump = false;
+	let isJumping = false;
+
+	function trasnformMap(_map) {
+
+		return _map.map(x => x.split(""));
+	}
+
+	function loadLevel(numberOfLevel) {
+		if (numberOfLevel > maxLevel) {
+			return;
+		}
+		let img = new Image();
+		img.onload = function () {
+			backgroundFiles[numberOfLevel] = img;
+			stateLevelLoading[numberOfLevel] = (stateLevelLoading[numberOfLevel] || 0) + 1;
+		}
+		img.src = 'img/Background' + numberOfLevel + '.png';
+		document.getElementById('imageHolder').appendChild(img);
+
+		let maps = document.createElement('script');
+		maps.onload = function () {
+			levelObjects[numberOfLevel] = eval("level" + numberOfLevel);
+			stateLevelLoading[numberOfLevel] = (stateLevelLoading[numberOfLevel] || 0) + 1;
+		}
+		maps.src = 'src/level' + numberOfLevel + '.js';
+		document.body.appendChild(maps);
+	}
+
+	function setLevelData(numberOfLevel) {
+		if (numberOfLevel > maxLevel) {
+			return;
+		}
+
+		function f() {
+			if (minDataLevelLoaded > (stateLevelLoading[numberOfLevel] || 0)) {
+				setTimeout(f, 200);
+			} else {
+				level = levelObjects[numberOfLevel];
+				x = level.x();
+				y = level.y();
+				map = trasnformMap(level.map());
+				hasLoaded = true;
+				loadLevel(numberOfLevel + 1);
+
+			}
+
+		}
+		f();
+
+	}
 	function drawFunction() {
-		//		console.log( "current level: " + currentLevel);
-		//За бързина     
-		/*		speedState = !speedState;
-		
-				if (!iAmSpeed && !speedState) {
-					return;
-				}
-		*/
+		if (hasLoaded == false) {
+			setTimeout(drawFunction, 300);
+			return;
+		}
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-		if (currentLevel == 1) {
-			ctx.drawImage(backgroundLevel1Img, 0, 0, canvasWidth, canvasHeight);
-			//			console.log( " level 1 ");
-			map = level.map1;
-		}
-		if (currentLevel == 2) {
-			ctx.drawImage(backgroundLevel2Img, 0, 0, canvasWidth, canvasHeight);
-			console.log(" level 2 ");
-			map = level.map2;
-		}
-		if (currentLevel == 3) {
-			ctx.drawImage(backgroundLevel3Img, 0, 0, canvasWidth, canvasHeight);
-			console.log(" level 3 ");
-			map = level.map3;
-		}
-		if (currentLevel == 4) {
-			ctx.drawImage(backgroundLevel4Img, 0, 0, canvasWidth, canvasHeight);
-			console.log(" level 4 ");
-			map = level.map4;
-		}
+
+		ctx.drawImage(backgroundFiles[currentLevel], 0, 0, canvasWidth, canvasHeight);
 
 		const oy = y;
 
@@ -88,18 +128,23 @@ const game = new function () {
 			gravityY = StartGravity;
 		}
 
-		//		if () {
-		//			gravityY = 1;
-		//		}
-		//		console.log(" gravity= "+gravityY);
 
 		for (let c = 0; c < numberBlocksWidth; c++) {
-			for (let r = 0; r < level.map1.length; r++) {
+			for (let r = 0; r < map.length; r++) {
 				switch (map[r][leftBorder + c]) {
-					case 'q':
+					case symbols.platform:
 						ctx.drawImage(platformImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
-					case 'D':
+					case symbols.water:
+						ctx.drawImage(waterImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+						break;
+					case symbols.grass:
+						ctx.drawImage(grassImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+						break;
+					case symbols.newWorldPlatform:
+						ctx.drawImage(groundImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+						break;
+					case symbols.diamond:
 						ctx.drawImage(diamondTransparentImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
 						break;
 				}
@@ -124,18 +169,19 @@ const game = new function () {
 
 	};
 
-	this.init = function (_level) {
-		console.log("init function");
-		level = _level;
-		//Записва й се стойноста
-		console.log(level);
-		x = level.x();
-		y = level.y();
-
+	this.init = function () {
+		loadLevel(currentLevel);
+		setLevelData(currentLevel);
 		requestAnimationFrame(drawFunction);
-
-
 	};
+
+	function moveToNextLevel() {
+		currentLevel++;
+		if (currentLevel > maxLevel) {
+			window.location.href = "end_game.html";
+		}
+		setLevelData(currentLevel);
+	}
 
 	this.handleMove = function (scaleX /* Колко бързо се движи по x надясно и наляво*/, scaleY/* Колко бързо се движи по y надясно и наляво*/) {
 
@@ -144,87 +190,113 @@ const game = new function () {
 		const ny = Math.floor(y + level.vY() * scaleY);
 		const mapX = Math.round(nx / level.squareSizeX());
 		const mapY = Math.floor(ny / level.squareSizeY());
-		//		const mapX = nx / level.squareSizeX();
-		//		const mapY = ny / level.squareSizeY();
 
 		if (scaleX < 0) characterWalkingLeft = true;
 		if (scaleX > 0) characterWalkingLeft = false;
-
-		//var map = level.map1;
-		if (currentLevel == 1) {
-			map = level.map1;
+		if (mapY >= map.length) {
+			mapY = map.length - 1;
+			ny = level.squareSizeY * mapY;
 		}
-		if (currentLevel == 2) {
-			map = level.map2;
+		if (mapY < 0) {
+			mapY = 0;
+			ny = 0;
 		}
-		if (currentLevel == 3) {
-			map = level.map3;
+		if (mapX >= map[mapY].length) {
+			mapX = map.length - 1;
+			nx = level.squareSizeX() * mapX - 4;
 		}
-		if (currentLevel == 4) {
-			map = level.map4;
+		if (mapX < 0) {
+			mapX = 0;
+			nx = 0;
 		}
-		//		console.log(x + " x> " + mapX);
-		//		console.log(y + " y> " + mapY);
-		//		console.log(map);
-		//		console.log(map[mapY]);
 
-		//		console.log( " mapX= " +mapX);
+		switch (map[mapY][mapX]) {
+			case symbols.platform:
+				//jumpCurrentStep = 1;
+				gravityY = StartGravity;
+				if (x < nx) {
+					x = level.squareSizeX() * (mapX - 1);
+				} else if (x > nx) {
+					x = level.squareSizeX() * (mapX + 1);
+				}
 
-		if (mapX >= 24) {
-			if (currentLevel < 4) {
-				currentLevel++;
+				if (y < ny) {
+				} else if (y > ny) {
+				}
+				canJump = true;
+				break;
+			case symbols.grass:
+				gravityY = StartGravity;
+				if (x < nx) {
+					x = level.squareSizeX() * (mapX - 1);
+				} else if (x > nx) {
+					x = level.squareSizeX() * (mapX + 1);
+				}
 
-				// Нови позиции
-				x = level.x();
-				y = level.y();
+				if (y < ny) {
+				} else if (y > ny) {
+				}
+				canJump = true;
+				break;
+			case symbols.newWorldPlatform:
+				gravityY = StartGravity;
+				if (x < nx) {
+					x = level.squareSizeX() * (mapX - 1);
+				} else if (x > nx) {
+					x = level.squareSizeX() * (mapX + 1);
+				}
 
-				console.log(" PREMINAHTE novo NIVO..... ");
-				requestAnimationFrame(drawFunction);
-			} else {
-				// друга страница с надпис
-				window.location.href = "end_game.html";
-			}
-		} else if (mapX >= 0 && mapY >= 0 && mapY < map.length && mapX < map[mapY].length) {
-
-			switch (map[mapY][mapX]) {
-				case 'q':
-					gravityY = StartGravity;
-					if (x < nx) {
-						x = level.squareSizeX() * (mapX - 1);
-					} else if (x > nx) {
-						x = level.squareSizeX() * (mapX + 1);
-					}
-
-					if (y < ny) {
-						//						y = level.squareSizeY() * (mapY - 1);
-					} else if (y > ny) {
-						//						y = level.squareSizeY() * (mapY + 1);
-					}
-					break;
-				case 'D':
-					map[mapY][mapX] = ' ';
-					CollectDiamonds++;
-					break;
-				case 'w':
-					window.location.href = "fail.html";
-
-				default:
-					x = nx;
-					y = ny;
-					break;
-			}
-			// Проверка дали ВЗИМА диамант
-
-
+				if (y < ny) {
+				} else if (y > ny) {
+				}
+				canJump = true;
+				break;
+			case symbols.diamond:
+				map[mapY][mapX] = ' ';
+				CollectDiamonds++;
+				break;
+			case symbols.water:
+				window.location.href = "fail.html";
+				break;
+			//символ за преминаване на следващо ниво
+			case symbols.win:
+				moveToNextLevel();
+				break;
+			default:
+				x = nx;
+				y = ny;
+				break;
 		}
+		// Проверка дали ВЗИМА диамант
 
 	};
-	this.jump = function () {
+
+
+	this.Jump = function () {
+		/*
+		if (jumpCurrentStep <= jumpMaxStep) {
+			gravityY += jumpSizeStep;
+			jumpCurrentStep++;
+		}
+		*/
+		//Можем да скочим, ако се намираме на платформа.
+		//Ако можем да скочим, значи вече извършваме скок.
+		//Ако в момента скачаме, променяме скоростта на гравитацията, за да се получи изтласкване.
+		//Ако скоростта гравитацията е по-голяма от 0, не скачаме -> можем да скочим.
+		if (canJump == true) {
+			isJumping = true;
+			if (isJumping) {
+			gravityY = -0.05 * StartGravity;
+			canJump = false;
+			if (gravityY > 0) {
+				isJumping = false;
+				canJump = true;
+			} 
+		} 
+		}
 		
-			gravityY += -0.4;
-	
-	};
+ 
+	}
 
 
 }();
-
