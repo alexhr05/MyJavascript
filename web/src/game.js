@@ -23,7 +23,7 @@ const game = new function () {
 		grass: 'g',
 		win: 'c',
 		newWorldPlatform: '*',
-		cloud: 'o'
+		space: ' '
 	});
 
 	const canvasWidth = canvas.clientWidth;
@@ -33,7 +33,6 @@ const game = new function () {
 	const StartGravity = 0.4;
 	let gravityY = StartGravity;
 
-
 	const labelPositionX = canvas.clientWidth - 200;
 	const labelPositionY = 10;
 	const labelRowY = 20;
@@ -41,11 +40,7 @@ const game = new function () {
 	let CollectDiamonds = 0;
 	const gravitySpeed = 0.0005;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
-	/*
-		const jumpSizeStep = -2;
-		let jumpCurrentStep = 1;
-		const jumpMaxStep = 5;
-	*/
+
 	let leftBorder = 0;
 
 	let map;
@@ -62,6 +57,13 @@ const game = new function () {
 
 	let canJump = false;
 	let isJumping = false;
+
+	const obstacles = new Map();
+	obstacles.set(symbols.platform, platformImg)
+	obstacles.set(symbols.water, waterImg)
+	obstacles.set(symbols.grass, grassImg)
+	obstacles.set(symbols.newWorldPlatform, groundImg)
+	obstacles.set(symbols.diamond, diamondTransparentImg)
 
 	function trasnformMap(_map) {
 
@@ -93,7 +95,6 @@ const game = new function () {
 		if (numberOfLevel > maxLevel) {
 			return;
 		}
-
 		function f() {
 			if (minDataLevelLoaded > (stateLevelLoading[numberOfLevel] || 0)) {
 				setTimeout(f, 200);
@@ -104,12 +105,9 @@ const game = new function () {
 				map = trasnformMap(level.map());
 				hasLoaded = true;
 				loadLevel(numberOfLevel + 1);
-
 			}
-
 		}
 		f();
-
 	}
 	function drawFunction() {
 		if (hasLoaded == false) {
@@ -131,23 +129,10 @@ const game = new function () {
 
 		for (let c = 0; c < numberBlocksWidth; c++) {
 			for (let r = 0; r < map.length; r++) {
-				switch (map[r][leftBorder + c]) {
-					case symbols.platform:
-						ctx.drawImage(platformImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-						break;
-					case symbols.water:
-						ctx.drawImage(waterImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-						break;
-					case symbols.grass:
-						ctx.drawImage(grassImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-						break;
-					case symbols.newWorldPlatform:
-						ctx.drawImage(groundImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-						break;
-					case symbols.diamond:
-						ctx.drawImage(diamondTransparentImg, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-						break;
-				}
+				const img = obstacles.get(map[r][leftBorder + c]);
+				if (!img) continue;
+				ctx.drawImage(img, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
+
 			}
 		}
 		//Тук се рисува човечето
@@ -186,10 +171,10 @@ const game = new function () {
 	this.handleMove = function (scaleX /* Колко бързо се движи по x надясно и наляво*/, scaleY/* Колко бързо се движи по y надясно и наляво*/) {
 
 		//Нова позиция
-		const nx = Math.floor(x + level.vX() * scaleX);
-		const ny = Math.floor(y + level.vY() * scaleY);
-		const mapX = Math.round(nx / level.squareSizeX());
-		const mapY = Math.floor(ny / level.squareSizeY());
+		let nx = Math.floor(x + level.vX() * scaleX);
+		let ny = Math.floor(y + level.vY() * scaleY);
+		let mapX = Math.round(nx / level.squareSizeX());
+		let mapY = Math.floor(ny / level.squareSizeY());
 
 		if (scaleX < 0) characterWalkingLeft = true;
 		if (scaleX > 0) characterWalkingLeft = false;
@@ -237,6 +222,7 @@ const game = new function () {
 				} else if (y > ny) {
 				}
 				canJump = true;
+
 				break;
 			case symbols.newWorldPlatform:
 				gravityY = StartGravity;
@@ -271,31 +257,20 @@ const game = new function () {
 
 	};
 
-
 	this.Jump = function () {
-		/*
-		if (jumpCurrentStep <= jumpMaxStep) {
-			gravityY += jumpSizeStep;
-			jumpCurrentStep++;
-		}
-		*/
+		//Не можем да скочим, ако падаме.
 		//Можем да скочим, ако се намираме на платформа.
 		//Ако можем да скочим, значи вече извършваме скок.
 		//Ако в момента скачаме, променяме скоростта на гравитацията, за да се получи изтласкване.
-		//Ако скоростта гравитацията е по-голяма от 0, не скачаме -> можем да скочим.
 		if (canJump == true) {
 			isJumping = true;
 			if (isJumping) {
-			gravityY = -0.05 * StartGravity;
-			canJump = false;
-			if (gravityY > 0) {
-				isJumping = false;
-				canJump = true;
-			} 
-		} 
+				gravityY = -0.05 * StartGravity;
+				canJump = false;
+			}
+
+
 		}
-		
- 
 	}
 
 
