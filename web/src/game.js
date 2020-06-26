@@ -7,12 +7,7 @@ const game = new function () {
 
 	let characterWalkingLeft = true;
 	const characterWalkingRightImg = document.getElementById("characterWalkingRight");
-	const diamondTransparentImg = document.getElementById("diamondTransparent");
 	const characterWalkingLeftImg = document.getElementById("characterWalkingLeft");
-	const platformImg = document.getElementById("platformImg");
-	const waterImg = document.getElementById("waterImg");
-	const grassImg = document.getElementById("grassImg");
-	const groundImg = document.getElementById("groundImg");
 	const canvas = document.getElementById("canvas-id");
 	const ctx = canvas.getContext('2d');
 
@@ -56,14 +51,13 @@ const game = new function () {
 	let hasLoaded = false;
 
 	let canJump = false;
-	let isJumping = false;
 
 	const obstacles = new Map();
-	obstacles.set(symbols.platform, platformImg)
-	obstacles.set(symbols.water, waterImg)
-	obstacles.set(symbols.grass, grassImg)
-	obstacles.set(symbols.newWorldPlatform, groundImg)
-	obstacles.set(symbols.diamond, diamondTransparentImg)
+	obstacles.set(symbols.platform, document.getElementById("platformImg"))
+	obstacles.set(symbols.water, document.getElementById("waterImg"))
+	obstacles.set(symbols.grass, document.getElementById("grassImg"))
+	obstacles.set(symbols.newWorldPlatform, document.getElementById("groundImg"))
+	obstacles.set(symbols.diamond, document.getElementById("diamondTransparent"))
 
 	function trasnformMap(_map) {
 
@@ -117,28 +111,24 @@ const game = new function () {
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
 		ctx.drawImage(backgroundFiles[currentLevel], 0, 0, canvasWidth, canvasHeight);
-
 		const oy = y;
-
 		gravityY += gravitySpeed;
 		game.handleMove(0, gravityY);
+		availableJump();
 		if (Math.abs(y - oy) < 0.00001) {
 			gravityY = StartGravity;
 		}
-
 
 		for (let c = 0; c < numberBlocksWidth; c++) {
 			for (let r = 0; r < map.length; r++) {
 				const img = obstacles.get(map[r][leftBorder + c]);
 				if (!img) continue;
 				ctx.drawImage(img, c * blockSizeWidth, r * blockSizeHeight, blockSizeWidth, blockSizeHeight);
-
 			}
 		}
 		//Тук се рисува човечето
 		ctx.drawImage(characterWalkingLeft ?/*Когато е истина*/  characterWalkingLeftImg :/*Когато е лъжа*/  characterWalkingRightImg,
 			(x * blockSizeWidth) / level.squareSizeX(), (y * blockSizeHeight) / level.squareSizeY() - blockSizeHeight, blockSizeWidth, blockSizeHeight);
-
 
 		ctx.font = "20px Verdana";
 		ctx.fillStyle = "white";
@@ -151,8 +141,8 @@ const game = new function () {
 
 		setInterval(this.handleKeys, 250);
 		requestAnimationFrame(drawFunction);
-
 	};
+
 
 	this.init = function () {
 		loadLevel(currentLevel);
@@ -222,7 +212,6 @@ const game = new function () {
 				} else if (y > ny) {
 				}
 				canJump = true;
-
 				break;
 			case symbols.newWorldPlatform:
 				gravityY = StartGravity;
@@ -253,9 +242,17 @@ const game = new function () {
 				y = ny;
 				break;
 		}
-		// Проверка дали ВЗИМА диамант
-
 	};
+
+	function availableJump() {
+		canJump = false;
+		const oy = y;
+		game.handleMove(0, StartGravity);
+		if (Math.abs(y - oy) < 0.00001) {
+			canJump = true;
+		}
+		y = oy;
+	}
 
 	this.Jump = function () {
 		//Не можем да скочим, ако падаме.
@@ -263,13 +260,8 @@ const game = new function () {
 		//Ако можем да скочим, значи вече извършваме скок.
 		//Ако в момента скачаме, променяме скоростта на гравитацията, за да се получи изтласкване.
 		if (canJump == true) {
-			isJumping = true;
-			if (isJumping) {
-				gravityY = -0.05 * StartGravity;
-				canJump = false;
-			}
-
-
+			gravityY = -0.05 * StartGravity;
+			canJump = false;
 		}
 	}
 
