@@ -25,15 +25,16 @@ const game = new function () {
 	const canvasHeight = canvas.clientHeight;
 	const blockSizeWidth = 50;
 	const blockSizeHeight = 50;
-	const StartGravity = 0.4;
+	const StartGravity = 0.6;
 	let gravityY = StartGravity;
-
+	const jumpVelocity = -0.06;
+	
 	const labelPositionX = canvas.clientWidth - 200;
 	const labelPositionY = 10;
 	const labelRowY = 20;
 
 	let CollectDiamonds = 0;
-	const gravitySpeed = 0.0005;
+	const gravitySpeed = 0.001;
 	const numberBlocksWidth = canvasWidth / blockSizeWidth;
 
 	let leftBorder = 0;
@@ -51,6 +52,8 @@ const game = new function () {
 	let hasLoaded = false;
 
 	let canJump = false;
+
+
 
 	const obstacles = new Map();
 	obstacles.set(symbols.platform, document.getElementById("platformImg"))
@@ -260,7 +263,7 @@ const game = new function () {
 		//Ако можем да скочим, значи вече извършваме скок.
 		//Ако в момента скачаме, променяме скоростта на гравитацията, за да се получи изтласкване.
 		if (canJump == true) {
-			gravityY = -0.05 * StartGravity;
+			gravityY = jumpVelocity * StartGravity;
 			canJump = false;
 		}
 	}
